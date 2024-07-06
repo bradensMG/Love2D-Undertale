@@ -6,12 +6,13 @@ require("/scripts/ui")
 
 local moonshine = require 'lib/moonshine'
 
-encounter = require 'encounter'
+globalVol = 1
 
 function preload()
     -- fonts
     dtm = love.graphics.newFont("assets/fonts/determination-mono.ttf", 32)
     uiFont = love.graphics.newFont("assets/fonts/Mars_Needs_Cunnilingus.ttf", 23)
+    dotumche = love.graphics.newFont("assets/fonts/undertale-dotumche.ttf", 12)
 
     -- images
     referenceImage = love.graphics.newImage("assets/images/ref.png")
@@ -52,18 +53,20 @@ end
 function love.load(arg)
     preload()
 
+    gameState = "main menu"
+
     love.graphics.setBackgroundColor(0, 0, 0, 1)
 
-    tick.framerate = 30
+    tick.framerate = 60
     love.window.setMode("640", "480")
-    love.window.setTitle("UNDERTALE")
+    love.window.setTitle("UNDERTALE Love2D")
 
     -- shader code. avaliable shaders and extra information in the "moonshine" folder in the libraries folder. uncommect for them to work
     effect = moonshine(moonshine.effects.chromasep)
     effect.chromasep.radius = 0
 
-    require("encounter")
+    mainMenuState = "root"
+    choice = 1
 
-    battleInit()
+    require(gameState)
 end
-
