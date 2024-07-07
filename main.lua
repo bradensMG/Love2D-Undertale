@@ -4,8 +4,6 @@ require("scripts/utils/textUtils")
 require("/scripts/soul")
 require("/scripts/ui")
 
-local moonshine = require 'lib/moonshine'
-
 globalVol = 1
 
 function preload()

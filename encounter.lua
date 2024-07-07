@@ -1,5 +1,18 @@
 if gameState == "encounter" then
     function battleInit()
+        monsterAnimFrame = 0
+
+        froggithead = {}
+        froggithead[0] = love.graphics.newImage("/assets/images/enemies/froggit/spr_froggithead_0.png")
+        froggithead[1] = love.graphics.newImage("/assets/images/enemies/froggit/spr_froggithead_1.png")
+        froggitlegs = {}
+        froggitlegs[0] = love.graphics.newImage("/assets/images/enemies/froggit/spr_froggitlegs_0.png")
+        froggitlegs[1] = love.graphics.newImage("/assets/images/enemies/froggit/spr_froggitlegs_1.png")
+        whimsun = {}
+        whimsun[0] = love.graphics.newImage("assets/images/enemies/whimsun/spr_whimsun_0.png")
+        whimsun[1] = love.graphics.newImage("assets/images/enemies/whimsun/spr_whimsun_1.png")
+        whimsunhurt = love.graphics.newImage("assets/images/enemies/whimsun/spr_whimsun_hurt.png")
+
         timeSinceLastKr = 0
         onButton = 1
 
@@ -7,7 +20,7 @@ if gameState == "encounter" then
 
         -- the first item is the encounter text. the rest are random text in the menu
         flavorText = {
-            "* You enconter the Dummies.",
+            "* Froggit and Whimsun drew near!",
             "* Glad Dummy keeps smiling.",
             "* Dummy remains idle.",
             "* Pissed Dummy wants to be left\n  alone."
@@ -19,7 +32,7 @@ if gameState == "encounter" then
         box_x, box_y, box_width, box_height = 35, 253, 569, 134 -- starting positions of the box
 
         player_stats = {
-            "sawby", -- name
+            "Chara", -- name
             1, -- lv
             20, -- hp
             20, -- max hp
@@ -28,54 +41,26 @@ if gameState == "encounter" then
             0, -- def
             0 -- atk
         }
-        amount_of_enemies = 3 -- if changed, you can delete the lists of enemies you don't need
+        amount_of_enemies = 2 -- if changed, you can delete the lists of enemies you don't need
         enemy1_stats = {
-            "Glad Dummy", -- name
-            10, -- hp
-            10, -- max
-            2, -- def
-            10, -- atk
-            "Glad to be here!", -- check msg
+            "Froggit", -- name
+            30, -- hp
+            30, -- max
+            4, -- def
+            4, -- atk
+            "Life is difficult for this enemy.", -- check msg
             "alive", -- state
-            100, -- x
-            136, -- y
-            0, -- x offset
-            0, -- y offset
-            love.graphics.newImage("assets/images/enemies/spr_dummybattle_glad_0.png"), -- sprite
-            true, -- can spare?
-            false -- is spared?
+            false -- can spare?
         }
         enemy2_stats = {
-            "Dummy", -- name
+            "Whimsun", -- name
             10, -- hp
             10, -- max
             0, -- def
-            0, -- atk
-            "Indifferent. Won't attack.", -- check msg
+            4, -- atk
+            "This monster is too sensitive to fight...", -- check msg
             "alive", -- state
-            250, -- x
-            136, -- y
-            0, -- x offset
-            0, -- y offset
-            love.graphics.newImage("assets/images/enemies/spr_dummybattle_0.png"), -- sprite
-            false, -- can spare?
-            false -- is spared?
-        }
-        enemy3_stats = {
-            "Pissed Dummy", -- name
-            100, -- hp
-            100, -- max
-            10, -- def
-            5, -- atk
-            "Hates being here. Wants to kill you.", -- check msg
-            "alive", -- state
-            400, -- x
-            136, -- y
-            0, -- x offset
-            0, -- y offset
-            love.graphics.newImage("assets/images/enemies/spr_dummybattle_angry.png"), -- sprite
-            false, -- can spare?
-            false -- is spared?
+            true -- can spare?
         }
     end
 
@@ -90,18 +75,14 @@ if gameState == "encounter" then
             love.graphics.draw(backgroundImage)
 
             -- love.graphics.setColor(255, 255, 255, .5)
+            love.graphics.draw(froggitlegs[math.floor((monsterAnimFrame * 2))], 200, 194)
+            love.graphics.draw(froggithead[math.floor((monsterAnimFrame * 2))], 196, 134)
 
-            if amount_of_enemies > 0 then
-                love.graphics.draw(enemy1_stats[12], enemy1_stats[8], enemy1_stats[9])
-            end
-            if amount_of_enemies > 1 then
-                love.graphics.draw(enemy2_stats[12], enemy2_stats[8], enemy2_stats[9])
-            end
-            if amount_of_enemies > 2 then
-                love.graphics.draw(enemy3_stats[12], enemy3_stats[8], enemy3_stats[9])
-            end
+            time = love.timer.getTime()
 
-            love.graphics.setColor(255, 255, 255, 1)
+            love.graphics.draw(whimsun[math.floor((monsterAnimFrame * 2))], 350, 134 + math.floor((math.sin(time * 2) * 10)))
+
+            love.graphics.setColor(1, 1, 1, 1)
                 
             ui()
             drawBox(box_x, box_y, box_width, box_height)
@@ -113,7 +94,12 @@ if gameState == "encounter" then
                 love.graphics.setFont(dtm)
                 if amount_of_enemies > 0 then
                     if enemy1_stats[7] == "alive" then
-                        if enemy1_stats[13] == true then
+                        love.graphics.setColor(255, 0, 0, 1)
+                        love.graphics.rectangle('fill', 140 + (#enemy1_stats[1] * 18), 280, 125, 17)
+                        love.graphics.setColor(0, 255, 0, 1)
+                        love.graphics.rectangle('fill', 140 + (#enemy1_stats[1] * 18), 280, enemy1_stats[2] / enemy1_stats[3] * 125, 17)
+                        
+                        if enemy1_stats[8] == true then
                             love.graphics.setColor(1, 1, 0, 1)
                         else
                             love.graphics.setColor(1, 1, 1, 1)
@@ -122,10 +108,16 @@ if gameState == "encounter" then
                         love.graphics.setColor(1, 1, 1, .5)
                     end
                     love.graphics.print("* " .. enemy1_stats[1], 80, 274)
+
                 end
                 if amount_of_enemies > 1 then
                     if enemy2_stats[7] == "alive" then
-                        if enemy2_stats[13] == true then
+                        love.graphics.setColor(255, 0, 0, 1)
+                        love.graphics.rectangle('fill', 140 + (#enemy2_stats[1] * 18), 312, 125, 17)
+                        love.graphics.setColor(0, 255, 0, 1)
+                        love.graphics.rectangle('fill', 140 + (#enemy2_stats[1] * 18), 312, enemy2_stats[2] / enemy2_stats[3] * 125, 17)
+
+                        if enemy2_stats[8] == true then
                             love.graphics.setColor(1, 1, 0, 1)
                         else
                             love.graphics.setColor(1, 1, 1, 1)
@@ -133,11 +125,17 @@ if gameState == "encounter" then
                     else
                         love.graphics.setColor(1, 1, 1, .5)
                     end
-                    love.graphics.print("* " .. enemy2_stats[1], 80, 274 + 32)
+                    love.graphics.print("* " .. enemy2_stats[1], 80, 306)
+
                 end
                 if amount_of_enemies > 2 then
                     if enemy3_stats[7] == "alive" then
-                        if enemy3_stats[13] == true then
+                        love.graphics.setColor(255, 0, 0, 1)
+                        love.graphics.rectangle('fill', 140 + (#enemy3_stats[1] * 18), 344, 125, 17)
+                        love.graphics.setColor(0, 255, 0, 1)
+                        love.graphics.rectangle('fill', 140 + (#enemy3_stats[1] * 18), 344, enemy3_stats[2] / enemy3_stats[3] * 125, 17)
+
+                        if enemy3_stats[8] == true then
                             love.graphics.setColor(1, 1, 0, 1)
                         else
                             love.graphics.setColor(1, 1, 1, 1)
@@ -145,13 +143,17 @@ if gameState == "encounter" then
                     else
                         love.graphics.setColor(1, 1, 1, .5)
                     end
-                love.graphics.print("* " .. enemy3_stats[1], 80, 274 + 64)
+                    love.graphics.print("* " .. enemy3_stats[1], 80, 338)
                 end
+                love.graphics.setColor(1, 1, 1, 1)
             end
     end
 
-    function love.update()
-        love.audio.setVolume(globalVol)
+    function love.update(dt)
+        monsterAnimFrame = monsterAnimFrame + dt
+        if monsterAnimFrame > 1 then
+            monsterAnimFrame = 0
+        end
         battlemus:setLooping(true)
         battlemus:play()
         if renderText == true then

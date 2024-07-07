@@ -98,7 +98,6 @@ function hurt_player()
 end
 
 function drawBox(x, y, width, height)
-    love.graphics.setDefaultFilter("nearest", "nearest")
     love.graphics.setColor(0, 0, 0, .5)
     love.graphics.rectangle('fill', math.floor(x), math.floor(y), math.floor(width), math.floor(height), 0, 0)
 

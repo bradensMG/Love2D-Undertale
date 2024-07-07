@@ -6,7 +6,10 @@ function beginTextRender()
     end
     if (timeSince >= interval and i <= #string) then
         uifont:stop()
-        uifont:play(uifont)
+        if string.sub(string, i, i) == " " then -- IF NOT WOULDNT WORK IM SORRY THIS LOOKS SO BAD
+        else
+            uifont:play(uifont)
+        end
         timeSince = 0
         progString = string.sub(string, 1, i)
         i = i + 1
