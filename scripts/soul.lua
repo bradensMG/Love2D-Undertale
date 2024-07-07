@@ -1,6 +1,12 @@
 heart, player_x, player_y = love.graphics.newImage("/assets/images/ut-heart.png"), 313, 310
 
 function soul()
+    if soulState == "target" then
+        love.graphics.setColor(1, 1, 1, 0)
+    else
+        love.graphics.setColor(1, 1, 1, 1)
+    end
+
     if love.keyboard.isDown("x") then
         player_speed = 2
     else
@@ -32,6 +38,17 @@ function soul()
                 if choice == 0 then
                     choice = amount_of_enemies
                 end
+            end
+            if (key == "z" and soulState == "choose enemy") then
+                soulState = "target"
+                movetarget = true
+                randomPos = love.math.random(0, 1)
+                if randomPos == 0 then
+                    targetchoiceX = -274
+                else
+                    targetchoiceX = 275
+                end
+                onButton = 0
             end
             if (key == "x" and soulState == "choose enemy") then
                 soulState = "buttons"

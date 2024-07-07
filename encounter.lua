@@ -1,17 +1,7 @@
 if gameState == "encounter" then
     function battleInit()
         monsterAnimFrame = 0
-
-        froggithead = {}
-        froggithead[0] = love.graphics.newImage("/assets/images/enemies/froggit/spr_froggithead_0.png")
-        froggithead[1] = love.graphics.newImage("/assets/images/enemies/froggit/spr_froggithead_1.png")
-        froggitlegs = {}
-        froggitlegs[0] = love.graphics.newImage("/assets/images/enemies/froggit/spr_froggitlegs_0.png")
-        froggitlegs[1] = love.graphics.newImage("/assets/images/enemies/froggit/spr_froggitlegs_1.png")
-        whimsun = {}
-        whimsun[0] = love.graphics.newImage("assets/images/enemies/whimsun/spr_whimsun_0.png")
-        whimsun[1] = love.graphics.newImage("assets/images/enemies/whimsun/spr_whimsun_1.png")
-        whimsunhurt = love.graphics.newImage("assets/images/enemies/whimsun/spr_whimsun_hurt.png")
+        tcFrame = 0
 
         timeSinceLastKr = 0
         onButton = 1
@@ -86,7 +76,29 @@ if gameState == "encounter" then
                 
             ui()
             drawBox(box_x, box_y, box_width, box_height)
+            if soulState == "target" then
+                love.graphics.draw(target, 38, 256)
+            end
+            if soulState == "target" then
+                damage = (0 - math.abs(targetchoiceX)) + 277
+                love.graphics.draw(targetchoice[math.floor(tcFrame)], targetchoiceX + 312, 256)
+                if (randomPos == 0 and movetarget == true) then
+                    targetchoiceX = targetchoiceX + 12
+                elseif movetarget == true then
+                    targetchoiceX = targetchoiceX - 12
+                end
+                function love.keypressed(key, scancode, isrepeat)
+                    if (key == "z" and soulState == "target") then
+                        movetarget = false
+                    end
+                end
+                if (targetchoiceX > 275 or targetchoiceX < -274) then
+                    movetarget = false
+                end
+            end       
             soul()
+
+            love.graphics.setColor(1, 1, 1, 1)
                 
             love.graphics.setFont(dtm)
             love.graphics.print(progString, x, y)
@@ -153,6 +165,10 @@ if gameState == "encounter" then
         monsterAnimFrame = monsterAnimFrame + dt
         if monsterAnimFrame > 1 then
             monsterAnimFrame = 0
+        end
+        tcFrame = tcFrame + (dt * 6)
+        if tcFrame > 2 then
+            tcFrame = 0
         end
         battlemus:setLooping(true)
         battlemus:play()
