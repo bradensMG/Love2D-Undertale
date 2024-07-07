@@ -1,5 +1,10 @@
 if gameState == "encounter" then
     function battleInit()
+        froggit_x_offset = 0
+        froggit_y_offset = 0
+        whimsun_x_offset = 0
+        whimsun_y_offset = 0
+        
         monsterAnimFrame = 0
         tcFrame = 0
 
@@ -11,9 +16,8 @@ if gameState == "encounter" then
         -- the first item is the encounter text. the rest are random text in the menu
         flavorText = {
             "* Froggit and Whimsun drew near!",
-            "* Glad Dummy keeps smiling.",
-            "* Dummy remains idle.",
-            "* Pissed Dummy wants to be left\n  alone."
+            "* The battlefield is filled with\n  the smell of mustard seed.",
+            "* Whimsun avoids eye contact."
         }
 
         setTextPerimeters(flavorText[1], 52, 274, dtm, false)
@@ -65,8 +69,8 @@ if gameState == "encounter" then
             love.graphics.draw(backgroundImage)
 
             -- love.graphics.setColor(255, 255, 255, .5)
-            love.graphics.draw(froggitlegs[math.floor((monsterAnimFrame * 2))], 200, 194)
-            love.graphics.draw(froggithead[math.floor((monsterAnimFrame * 2))], 196, 134)
+            love.graphics.draw(froggitlegs[math.floor((monsterAnimFrame * 2))], 200 + froggit_x_offset, 194 + froggit_y_offset)
+            love.graphics.draw(froggithead[math.floor((monsterAnimFrame * 2))], 196 + whimsun_x_offset, 134 + whimsun_y_offset)
 
             time = love.timer.getTime()
 

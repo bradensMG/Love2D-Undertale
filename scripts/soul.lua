@@ -40,6 +40,7 @@ function soul()
                 end
             end
             if (key == "z" and soulState == "choose enemy") then
+                love.audio.play(menuconfirm)
                 soulState = "target"
                 movetarget = true
                 randomPos = love.math.random(0, 1)
