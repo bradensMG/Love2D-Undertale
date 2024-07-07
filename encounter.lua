@@ -80,7 +80,6 @@ if gameState == "encounter" then
     end
 
     function love.draw()
-        effect(function()
             love.graphics.setDefaultFilter("nearest", "nearest")
 
             if renderText == false then
@@ -149,7 +148,6 @@ if gameState == "encounter" then
                 love.graphics.print("* " .. enemy3_stats[1], 80, 274 + 64)
                 end
             end
-        end)
     end
 
     function love.update()

@@ -2,9 +2,9 @@ heart, player_x, player_y = love.graphics.newImage("/assets/images/ut-heart.png"
 
 function soul()
     if love.keyboard.isDown("x") then
-        player_speed = 2 / (tick.framerate / 30)
+        player_speed = 2
     else
-        player_speed = 4 / (tick.framerate / 30)
+        player_speed = 4
     end
 
     if soulState == "choose enemy" then

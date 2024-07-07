@@ -53,20 +53,16 @@ end
 function love.load(arg)
     preload()
 
-    gameState = "main menu"
-
     love.graphics.setBackgroundColor(0, 0, 0, 1)
 
-    tick.framerate = 60
+    tick.framerate = 30
     love.window.setMode("640", "480")
-    love.window.setTitle("UNDERTALE Love2D")
-
-    -- shader code. avaliable shaders and extra information in the "moonshine" folder in the libraries folder. uncommect for them to work
-    effect = moonshine(moonshine.effects.chromasep)
-    effect.chromasep.radius = 0
+    love.window.setTitle("UNDERTALE")
 
     mainMenuState = "root"
     choice = 1
 
+    gameState = "encounter"
     require(gameState)
+    battleInit()
 end
