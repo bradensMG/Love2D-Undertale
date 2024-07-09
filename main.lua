@@ -11,7 +11,7 @@ function preload()
     dtm = love.graphics.newFont("assets/fonts/determination-mono.ttf", 32)
     uiFont = love.graphics.newFont("assets/fonts/Mars_Needs_Cunnilingus.ttf", 23)
     dotumche = love.graphics.newFont("assets/fonts/undertale-dotumche.ttf", 12)
-    damageFont = love.graphics.newFont("assets/fonts/attack.ttf")
+    damageFont = love.graphics.newFont("assets/fonts/attack.ttf", 24)
 
     -- images
     referenceImage = love.graphics.newImage("assets/images/ref.png")
