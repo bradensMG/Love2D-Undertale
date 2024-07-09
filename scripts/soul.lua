@@ -1,6 +1,10 @@
 heart, player_x, player_y = love.graphics.newImage("/assets/images/ut-heart.png"), 313, 310
 
 function soul()
+    maxright = box_x + (box_width) - 18
+    maxleft = box_x + 2
+    maxup = box_y + (box_height) - 18
+    maxdown = box_y + 2
     if soulState == "target" then
         love.graphics.setColor(1, 1, 1, 0)
     else
@@ -43,6 +47,7 @@ function soul()
                 love.audio.play(menuconfirm)
                 soulState = "target"
                 movetarget = true
+                showtargetchoice = true
                 randomPos = love.math.random(0, 1)
                 if randomPos == 0 then
                     targetchoiceX = -274
@@ -59,29 +64,34 @@ function soul()
     end
 
     if soulState == "enemy turn" then
-        if love.keyboard.isDown("down") then 
-            player_y = player_y + player_speed 
+        if movement == 2 then
+            love.graphics.setFont(dtm)
+            love.graphics.print("bluesoul unfinished", player_x - 125, player_y + 25)
+        elseif movement == 1 then
+            if love.keyboard.isDown("down") then 
+                player_y = player_y + player_speed 
+            end
+            if love.keyboard.isDown("up") then 
+                player_y = player_y - player_speed
+            end
+            if love.keyboard.isDown("right") then 
+                player_x = player_x + player_speed
+            end
+            if love.keyboard.isDown("left") then 
+                player_x = player_x - player_speed
+            end
         end
-        if love.keyboard.isDown("up") then 
-            player_y = player_y - player_speed
+        if player_x > maxright then
+            player_x = maxright
         end
-        if love.keyboard.isDown("right") then 
-            player_x = player_x + player_speed
+        if player_x < maxleft then
+            player_x = maxleft
         end
-        if love.keyboard.isDown("left") then 
-            player_x = player_x - player_speed
+        if player_y > maxup then
+            player_y = maxup
         end
-        if player_x > box_x + (box_width) - 18 then
-            player_x = box_x + (box_width) - 18
-        end
-        if player_x < box_x + 2 then
-            player_x = box_x + 2
-        end
-        if player_y > box_y + (box_height) - 18 then
-            player_y = box_y + (box_height) - 18
-        end
-        if player_y < box_y + 2 then
-            player_y = box_y + 2
+        if player_y < maxdown then
+            player_y = maxdown
         end
     end
 
@@ -122,6 +132,11 @@ function soul()
                     love.audio.play(menuconfirm)
                     renderText = false
                     soulState = "choose enemy"
+                    choice = 1
+                elseif onButton == 2 then
+                    love.audio.play(menuconfirm)
+                    renderText = false
+                    soulState = "which one to act"
                     choice = 1
                 end
             end

@@ -1,5 +1,8 @@
 if gameState == "encounter" then
     function battleInit()
+        showtargetchoice = false
+        show_slice = false
+
         froggit_x_offset = 0
         froggit_y_offset = 0
         whimsun_x_offset = 0
@@ -12,6 +15,7 @@ if gameState == "encounter" then
         onButton = 1
 
         soulState = "buttons" -- i recommend either having this be "buttons" or "enemy turn dialogue"
+        movement = 1
 
         -- the first item is the encounter text. the rest are random text in the menu
         flavorText = {
@@ -74,7 +78,7 @@ if gameState == "encounter" then
 
         time = love.timer.getTime()
 
-        love.graphics.draw(whimsun[math.floor((monsterAnimFrame * 2))], 350, 134 + math.floor((math.sin(time * 2) * 10)))
+        love.graphics.draw(whimsun[math.floor((monsterAnimFrame * 2))], 350, 134 + math.floor((math.sin(time * 1) * 10)))
 
         love.graphics.setColor(1, 1, 1, 1)
                 
@@ -91,11 +95,10 @@ if gameState == "encounter" then
             elseif choice == 3 then
                 damage = math.floor(((((0 - math.abs(targetchoiceX)) + 277) / 4) * (player_stats[8] + 1)) / (enemy3_stats[4] + 1))
             end
-            love.graphics.setFont(damageFont)
-            love.graphics.setColor(1, 0, 0, 1)
-            love.graphics.print(damage, 20, 20)
             love.graphics.setColor(1, 1, 1, 1)
-            love.graphics.draw(targetchoice[math.floor(tcFrame)], targetchoiceX + 312, 256)
+            if showtargetchoice == true then
+                love.graphics.draw(targetchoice[math.floor(tcFrame)], targetchoiceX + 312, 256)
+            end
             if (randomPos == 0 and movetarget == true) then
                 targetchoiceX = targetchoiceX + 12
             elseif movetarget == true then
@@ -103,12 +106,16 @@ if gameState == "encounter" then
             end
             function love.keypressed(key, scancode, isrepeat)
                 if ((key == "z" or key == "return") and soulState == "target") then
+                    show_slice = true
                     movetarget = false
                 end
             end
             if (targetchoiceX > 275 or targetchoiceX < -274) then
                 movetarget = false
-                damage = "miss"
+                showtargetchoice = false
+                love.graphics.setFont(damageFont)
+                love.graphics.setColor(.75, .75, .75)
+                love.graphics.print("MISS", 240, 50)
             end
         end       
         soul()

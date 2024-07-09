@@ -6,6 +6,7 @@ require("/scripts/ui")
 
 globalVol = 1
 
+
 function preload()
     -- fonts
     dtm = love.graphics.newFont("assets/fonts/determination-mono.ttf", 32)
