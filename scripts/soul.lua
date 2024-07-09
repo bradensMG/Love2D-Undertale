@@ -39,7 +39,7 @@ function soul()
                     choice = amount_of_enemies
                 end
             end
-            if (key == "z" and soulState == "choose enemy") then
+            if ((key == "z" or key == "return") and soulState == "choose enemy") then
                 love.audio.play(menuconfirm)
                 soulState = "target"
                 movetarget = true
@@ -51,7 +51,7 @@ function soul()
                 end
                 onButton = 0
             end
-            if (key == "x" and soulState == "choose enemy") then
+            if ((key == "x" or key == "rshift") and soulState == "choose enemy") then
                 soulState = "buttons"
                 renderText = true
             end
@@ -117,7 +117,7 @@ function soul()
                 end
             end
 
-            if (key == "z" and soulState == "buttons") then
+            if ((key == "z" or key == "return") and soulState == "buttons") then
                 if onButton == 1 then
                     love.audio.play(menuconfirm)
                     renderText = false

@@ -4,7 +4,7 @@ if gameState == "encounter" then
         froggit_y_offset = 0
         whimsun_x_offset = 0
         whimsun_y_offset = 0
-        
+
         monsterAnimFrame = 0
         tcFrame = 0
 
@@ -84,7 +84,15 @@ if gameState == "encounter" then
                 love.graphics.draw(target, 38, 256)
             end
             if soulState == "target" then
-                damage = (0 - math.abs(targetchoiceX)) + 277
+                if choice == 1 then
+                    damage = math.floor(((((0 - math.abs(targetchoiceX)) + 277) / 4) * (player_stats[8] + 1)) / (enemy1_stats[4] + 1))
+                elseif choice == 2 then
+                    damage = math.floor(((((0 - math.abs(targetchoiceX)) + 277) / 4) * (player_stats[8] + 1)) / (enemy2_stats[4] + 1))
+                elseif choice == 3 then
+                    damage = math.floor(((((0 - math.abs(targetchoiceX)) + 277) / 4) * (player_stats[8] + 1)) / (enemy3_stats[4] + 1))
+                end
+                love.graphics.setFont(damageFont)
+                love.graphics.print(damage, 20, 20)
                 love.graphics.draw(targetchoice[math.floor(tcFrame)], targetchoiceX + 312, 256)
                 if (randomPos == 0 and movetarget == true) then
                     targetchoiceX = targetchoiceX + 12
@@ -92,12 +100,13 @@ if gameState == "encounter" then
                     targetchoiceX = targetchoiceX - 12
                 end
                 function love.keypressed(key, scancode, isrepeat)
-                    if (key == "z" and soulState == "target") then
+                    if ((key == "z" or key == "return") and soulState == "target") then
                         movetarget = false
                     end
                 end
                 if (targetchoiceX > 275 or targetchoiceX < -274) then
                     movetarget = false
+                    damage = "miss"
                 end
             end       
             soul()
@@ -166,11 +175,12 @@ if gameState == "encounter" then
     end
 
     function love.update(dt)
+        love.audio.setVolume(0)
         monsterAnimFrame = monsterAnimFrame + dt
         if monsterAnimFrame > 1 then
             monsterAnimFrame = 0
         end
-        tcFrame = tcFrame + (dt * 6)
+        tcFrame = tcFrame + (dt * 10)
         if tcFrame > 2 then
             tcFrame = 0
         end

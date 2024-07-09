@@ -1,6 +1,6 @@
 function beginTextRender()
     timeSince = timeSince + tick.dt
-    if love.keyboard.isDown("x") or isInstant == true then
+    if (love.keyboard.isDown("x") or love.keyboard.isDown("rshift")) or isInstant == true then
         i = #string + 1
         progString = string
     end

@@ -11,7 +11,7 @@ function preload()
     dtm = love.graphics.newFont("assets/fonts/determination-mono.ttf", 32)
     uiFont = love.graphics.newFont("assets/fonts/Mars_Needs_Cunnilingus.ttf", 23)
     dotumche = love.graphics.newFont("assets/fonts/undertale-dotumche.ttf", 12)
-    damage = love.graphics.newFont("assets/fonts/attack.ttf")
+    damageFont = love.graphics.newFont("assets/fonts/attack.ttf")
 
     -- images
     referenceImage = love.graphics.newImage("assets/images/ref.png")
@@ -48,10 +48,13 @@ function preload()
 
     -- audio
     uifont = love.audio.newSource("assets/sound/sfx/Voices/uifont.wav", "static")
+
     battlemus = love.audio.newSource("assets/sound/mus/mus_battle2.ogg", "stream")
 
     menumove = love.audio.newSource("assets/sound/sfx/menumove.wav", "static")
     menuconfirm = love.audio.newSource("assets/sound/sfx/menuconfirm.wav", "static")
+    hitsound = love.audio.newSource("assets/sound/sfx/hitsound.wav", "static")
+    slice = love.audio.newSource("assets/sound/sfx/slice.wav", "static")
 end
 
 function setTextPerimeters(stringAwesome, xAwesome, yAwesome, fontAwesome, isInstantAwesome)
