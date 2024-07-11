@@ -31,10 +31,10 @@ if gameState == "encounter" then
 
         player_stats = {
             "Chara", -- name
-            1, -- lv
-            20, -- hp
-            20, -- max hp
-            false, -- has kr?
+            19, -- lv
+            92, -- hp
+            92, -- max hp
+            true, -- has kr?
             0, -- amt of kr (don't change)
             0, -- def
             0 -- atk
@@ -59,6 +59,14 @@ if gameState == "encounter" then
             "This monster is too sensitive to fight...", -- check msg
             "alive", -- state
             true -- can spare?
+        }
+        enemy1_acts = {
+            "Compiment",
+            "Threat"
+        }
+        enemy2_acts = {
+            "Console",
+            "Terrorize"
         }
     end
 
@@ -88,6 +96,14 @@ if gameState == "encounter" then
             love.graphics.draw(target, 38, 256)
         end
         if soulState == "target" then
+            love.graphics.setFont(dotumche)
+
+            -- spleen = math.abs(targetchoiceX)
+            -- ribs = math.floor(((277 - spleen) / 5) / enemy1_stats[4])
+
+            -- mydmg = math.floor(((277 - math.abs(targetchoiceX)) / 4 * (player_stats[8] + 1)) / (enemy1_stats[4] + 1))
+            -- revodmg = math.floor(((((0 - math.abs(targetchoiceX)) + 277) / 4) * (player_stats[8] + 1)) / (enemy1_stats[4] + 1))
+            
             if choice == 1 then
                 damage = math.floor(((((0 - math.abs(targetchoiceX)) + 277) / 4) * (player_stats[8] + 1)) / (enemy1_stats[4] + 1))
             elseif choice == 2 then
@@ -180,6 +196,10 @@ if gameState == "encounter" then
                 love.graphics.print("* " .. enemy3_stats[1], 80, 338)
             end
             love.graphics.setColor(1, 1, 1, 1)
+        end
+        if love.keyboard.isDown("1") then
+            love.graphics.setFont(dotumche)
+            love.graphics.print("FPS: " .. 1 / tick.dt)
         end
     end
 

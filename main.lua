@@ -79,9 +79,6 @@ function love.load(arg)
     love.window.setMode("640", "480")
     love.window.setTitle("UNDERTALE")
 
-    mainMenuState = "root"
-    choice = 1
-
     gameState = "encounter"
     require(gameState)
     battleInit()
