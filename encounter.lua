@@ -3,6 +3,8 @@ if gameState == "encounter" then
         showtargetchoice = false
         show_slice = false
 
+        sliceframe = 1
+
         froggit_x_offset = 0
         froggit_y_offset = 0
         whimsun_x_offset = 0
@@ -10,6 +12,7 @@ if gameState == "encounter" then
 
         monsterAnimFrame = 0
         tcFrame = 0
+        sliceAnimTimer = 0
 
         timeSinceLastKr = 0
         onButton = 1
@@ -31,10 +34,10 @@ if gameState == "encounter" then
 
         player_stats = {
             "Chara", -- name
-            19, -- lv
-            92, -- hp
-            92, -- max hp
-            true, -- has kr?
+            1, -- lv
+            20, -- hp
+            20, -- max hp
+            false, -- has kr?
             0, -- amt of kr (don't change)
             0, -- def
             0 -- atk
@@ -76,6 +79,8 @@ if gameState == "encounter" then
         if renderText == false then
             progString = ""
         end
+
+        love.graphics.setBackgroundColor(0, 0, 0)
         
             -- love.graphics.draw(referenceImage, 0, 0)
         love.graphics.draw(backgroundImage)
@@ -92,48 +97,7 @@ if gameState == "encounter" then
                 
         ui()
         drawBox(box_x, box_y, box_width, box_height)
-        if soulState == "target" then
-            love.graphics.draw(target, 38, 256)
-        end
-        if soulState == "target" then
-            love.graphics.setFont(dotumche)
-
-            -- spleen = math.abs(targetchoiceX)
-            -- ribs = math.floor(((277 - spleen) / 5) / enemy1_stats[4])
-
-            -- mydmg = math.floor(((277 - math.abs(targetchoiceX)) / 4 * (player_stats[8] + 1)) / (enemy1_stats[4] + 1))
-            -- revodmg = math.floor(((((0 - math.abs(targetchoiceX)) + 277) / 4) * (player_stats[8] + 1)) / (enemy1_stats[4] + 1))
-            
-            if choice == 1 then
-                damage = math.floor(((((0 - math.abs(targetchoiceX)) + 277) / 4) * (player_stats[8] + 1)) / (enemy1_stats[4] + 1))
-            elseif choice == 2 then
-                damage = math.floor(((((0 - math.abs(targetchoiceX)) + 277) / 4) * (player_stats[8] + 1)) / (enemy2_stats[4] + 1))
-            elseif choice == 3 then
-                damage = math.floor(((((0 - math.abs(targetchoiceX)) + 277) / 4) * (player_stats[8] + 1)) / (enemy3_stats[4] + 1))
-            end
-            love.graphics.setColor(1, 1, 1, 1)
-            if showtargetchoice == true then
-                love.graphics.draw(targetchoice[math.floor(tcFrame)], targetchoiceX + 312, 256)
-            end
-            if (randomPos == 0 and movetarget == true) then
-                targetchoiceX = targetchoiceX + 12
-            elseif movetarget == true then
-                targetchoiceX = targetchoiceX - 12
-            end
-            function love.keypressed(key, scancode, isrepeat)
-                if ((key == "z" or key == "return") and soulState == "target") then
-                    show_slice = true
-                    movetarget = false
-                end
-            end
-            if (targetchoiceX > 275 or targetchoiceX < -274) then
-                movetarget = false
-                showtargetchoice = false
-                love.graphics.setFont(damageFont)
-                love.graphics.setColor(.75, .75, .75)
-                love.graphics.print("MISS", 240, 50)
-            end
-        end       
+        attackUi()
         soul()
 
         love.graphics.setColor(1, 1, 1, 1)
@@ -199,7 +163,6 @@ if gameState == "encounter" then
         end
         if love.keyboard.isDown("1") then
             love.graphics.setFont(dotumche)
-            love.graphics.print("FPS: " .. 1 / tick.dt)
         end
     end
 

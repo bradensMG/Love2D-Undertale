@@ -3,6 +3,7 @@ tick = require "lib/tick"
 require("scripts/utils/textUtils")
 require("/scripts/soul")
 require("/scripts/ui")
+require("/scripts/atkUi")
 
 globalVol = 1
 
@@ -23,6 +24,14 @@ function preload()
     targetchoice = {}
     targetchoice[0] = love.graphics.newImage("assets/images/spr_targetchoice_0.png")
     targetchoice[1] = love.graphics.newImage("assets/images/spr_targetchoice_1.png")
+
+    sliceSprite = {}
+    sliceSprite[1] = love.graphics.newImage("assets/images/ui/slice/spr_slice_o_0.png")
+    sliceSprite[2] = love.graphics.newImage("assets/images/ui/slice/spr_slice_o_1.png")
+    sliceSprite[3] = love.graphics.newImage("assets/images/ui/slice/spr_slice_o_2.png")
+    sliceSprite[4] = love.graphics.newImage("assets/images/ui/slice/spr_slice_o_3.png")
+    sliceSprite[5] = love.graphics.newImage("assets/images/ui/slice/spr_slice_o_4.png")
+    sliceSprite[6] = love.graphics.newImage("assets/images/ui/slice/spr_slice_o_5.png")
 
     fightUnselected = love.graphics.newImage("/assets/images/ui/bt/fight0.png")
     fightSelected = love.graphics.newImage("/assets/images/ui/bt/fight1.png")
@@ -75,7 +84,7 @@ function love.load(arg)
 
     love.graphics.setBackgroundColor(0, 0, 0, 1)
 
-    tick.framerate = 30
+    tick.framerate = 60
     love.window.setMode("640", "480")
     love.window.setTitle("UNDERTALE")
 

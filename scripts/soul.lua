@@ -12,9 +12,9 @@ function soul()
     end
 
     if love.keyboard.isDown("x") then
-        player_speed = 2
+        player_speed = 2 * love.timer.getDelta() * 30
     else
-        player_speed = 4
+        player_speed = 4 * love.timer.getDelta() * 30
     end
 
     if soulState == "choose enemy" then

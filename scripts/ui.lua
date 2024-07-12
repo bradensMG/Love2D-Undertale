@@ -98,7 +98,11 @@ function hurt_player()
 end
 
 function drawBox(x, y, width, height)
-    love.graphics.setColor(0, 0, 0, .5)
+    love.graphics.setColor(0, 0, 0, 1)
+    love.graphics.setLineWidth(4)
+    love.graphics.rectangle('line', math.floor(x) + 4, math.floor(y) + 4, math.floor(width) - 8, math.floor(height) - 8, 0, 0)
+
+    love.graphics.setColor(0, 0, 0, .50)
     love.graphics.rectangle('fill', math.floor(x), math.floor(y), math.floor(width), math.floor(height), 0, 0)
 
     love.graphics.setColor(0, 0, 0, 1)
@@ -112,4 +116,8 @@ function drawBox(x, y, width, height)
     love.graphics.setColor(255, 255, 255, 1)
     love.graphics.setLineWidth(4)
     love.graphics.rectangle('line', math.floor(x) - 1, math.floor(y) - 1, math.floor(width) + 2, math.floor(height) + 2, 0, 0)
+
+    love.graphics.setColor(0, 0, 0, 1)
+    love.graphics.setLineWidth(4)
+    love.graphics.rectangle('line', math.floor(x) - 4, math.floor(y) - 4, math.floor(width) + 8, math.floor(height) + 8, 0, 0)
 end
