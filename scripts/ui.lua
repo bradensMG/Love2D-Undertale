@@ -1,54 +1,10 @@
-function ui()
-    if player_stats[3] < 1 then
-        if player_stats[6] > 0 then
-            player_stats[3] = 1
-        else
-            gameState = "death"
-        end
-    end
-
-    if player_stats[3] + player_stats[6] > player_stats[4] then
-        player_stats[3] = player_stats[4] - player_stats[6]
-    end
-
-    if player_stats[6] > 0 then
-        timeSinceLastKr = timeSinceLastKr + tick.dt
-        if timeSinceLastKr > 1.8 / (player_stats[6]) then
-            timeSinceLastKr = 0
-            player_stats[6] = player_stats[6] - 1
-        end
-    end
-
-    if onButton == 1 then
-        love.graphics.draw(fightSelected, 32, 432)
-    else
-        love.graphics.draw(fightUnselected, 32, 432)
-    end
-
-    if onButton == 2 then
-        love.graphics.draw(actSelected, 185, 432)
-    else
-        love.graphics.draw(actUnselected, 185, 432)
-    end
-
-    if onButton == 3 then
-        love.graphics.draw(itemSelected, 345, 432)
-    else
-        love.graphics.draw(itemUnselected, 345, 432)
-    end
-
-    if onButton == 4 then
-        love.graphics.draw(mercySelected, 500, 432)
-    else
-        love.graphics.draw(mercyUnselected, 500, 432)
-    end
-
+function draw_hp_and_healthbar()
     love.graphics.setColor(255, 255, 255, 1)
 
-    love.graphics.setFont(uiFont)   -- ui text stuffs (name, hp text, love)
+    love.graphics.setFont(ui_font)   -- ui text stuffs (name, hp text, love)
     love.graphics.print(player_stats[1] .. "   lv " .. player_stats[2], 30, 400)
 
-    love.graphics.draw(hpName, 240, 400)
+    love.graphics.draw(hp_name, 240, 400)
 
     love.graphics.setColor(192, 0, 0, 1)
     love.graphics.rectangle('fill', 275, 400, (player_stats[4] * 1.2), 21)
@@ -86,18 +42,30 @@ function ui()
     end
 end
 
-function hurt_player()
-    player_stats[3] = player_stats[3] - 1
-    if player_stats[5] == true then
-        if player_stats[3] > 1 then
-            player_stats[6] = player_stats[6] + 1
-        else
-            player_stats[6] = player_stats[6] - 1
-        end
+function draw_buttons()
+    if on_button == 1 then
+        love.graphics.draw(button.fight_selected, 32, 432)
+    else
+        love.graphics.draw(button.fight_unselected, 32, 432)
+    end
+    if on_button == 2 then
+        love.graphics.draw(button.actSelected, 185, 432)
+    else
+        love.graphics.draw(button.actUnselected, 185, 432)
+    end
+    if on_button == 3 then
+        love.graphics.draw(button.itemSelected, 345, 432)
+    else
+        love.graphics.draw(button.itemUnselected, 345, 432)
+    end
+    if on_button == 4 then
+        love.graphics.draw(button.mercySelected, 500, 432)
+    else
+        love.graphics.draw(button.mercyUnselected, 500, 432)
     end
 end
 
-function drawBox(x, y, width, height)
+function draw_box(x, y, width, height)
     love.graphics.setColor(0, 0, 0, 1)
     love.graphics.setLineWidth(4)
     love.graphics.rectangle('line', math.floor(x) + 4, math.floor(y) + 4, math.floor(width) - 8, math.floor(height) - 8, 0, 0)
