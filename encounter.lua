@@ -57,7 +57,7 @@ if game_state == "encounter" then
             prog_string = ""
         end
 
-        love.graphics.setBackgroundColor(0, 0, 0)
+        love.graphics.setBackgroundColor(.25, 0, .5)
         
         -- love.graphics.draw(background_img)
                 
