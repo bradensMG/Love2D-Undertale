@@ -6,10 +6,12 @@ require("/scripts/ui")
 
 function preload()
     -- fonts
-    dtm = love.graphics.newFont("assets/fonts/determination-mono.ttf", 32)
-    ui_font = love.graphics.newFont("assets/fonts/Mars_Needs_Cunnilingus.ttf", 23)
-    -- dotumche = love.graphics.newFont("assets/fonts/undertale-dotumche.ttf", 12)
-    -- damage_font = love.graphics.newFont("assets/fonts/attack.ttf", 24)
+    fonts = {
+        main = love.graphics.newFont("assets/fonts/determination-mono.ttf", 32),
+        ui = love.graphics.newFont("assets/fonts/Mars_Needs_Cunnilingus.ttf", 23),
+        dialogue = love.graphics.newFont("assets/fonts/undertale-dotumche.ttf", 12),
+        damage = love.graphics.newFont("assets/fonts/attack.ttf", 24)
+    }
 
     -- images
     reference_img = love.graphics.newImage("assets/images/ref.png")
@@ -38,12 +40,12 @@ function preload()
     menu_confirm = love.audio.newSource("assets/sound/sfx/menuconfirm.wav", "static")
 end
 
-function set_text_params(my_string, my_x, my_y, my_font, my_mode)
+function set_text_params(my_string, my_x, my_y, my_font, my_mode, my_interval)
     time_since = 0
     i = 1
     string = my_string
     prog_string = ""
-    interval = 1 / 60
+    interval = my_interval
     x = my_x
     y = my_y
     font = my_font
@@ -51,12 +53,12 @@ function set_text_params(my_string, my_x, my_y, my_font, my_mode)
 end
 
 function hurt_player()
-    player_stats[3] = player_stats[3] - 1
+    player.hp = player.hp - 1
     if player_stats[5] == true then
-        if player_stats[3] > 1 then
-            player_stats[6] = player_stats[6] + 1
+        if player.hp > 1 then
+            player.amt_of_kr = player.amt_of_kr + 1
         else
-            player_stats[6] = player_stats[6] - 1
+            player.amt_of_kr = player.amt_of_kr - 1
         end
     end
 end

@@ -1,7 +1,7 @@
 heart, player_x, player_y = love.graphics.newImage("/assets/images/ut-heart.png"), 313, 310
 
 function soul()
-    love.graphics.draw(heart, math.floor(player_x), math.floor(player_y))
+    love.graphics.setColor(1, 1, 1, 1)
 
     maxright = box_x + (box_width) - 18
     maxleft = box_x + 2
@@ -14,11 +14,8 @@ function soul()
         player_speed = 4 * love.timer.getDelta() * 30
     end
 
-    if soulState == "enemy turn" then
-        if movement == 2 then
-            love.graphics.setFont(dtm)
-            love.graphics.print("bluesoul unfinished", player_x - 125, player_y + 25)
-        elseif movement == 1 then
+    if soul_state == "enemy turn" then
+        if movement == 1 then
             if love.keyboard.isDown("down") then 
                 player_y = player_y + player_speed 
             end
@@ -46,19 +43,42 @@ function soul()
         end
     end
 
-    if soulState == "buttons" then
-        if onButton == 1 then 
+    if soul_state == "buttons" then
+        if on_button == 1 then 
             player_x = 40
             player_y = 446
-        elseif onButton == 2 then
+        elseif on_button == 2 then
             player_x = 193
             player_y = 446
-        elseif onButton == 3 then
+        elseif on_button == 3 then
             player_x = 353
             player_y = 446
-        elseif onButton == 4 then
+        elseif on_button == 4 then
             player_x = 508
             player_y = 446
         end
     end
+
+    function love.keypressed(key, scancode, isrepeat)
+        if (key == "left" and soul_state == "buttons") then
+            love.audio.play(menu_move)
+            on_button = on_button - 1
+            if on_button == 0 then
+                on_button = 4
+            end
+        end
+
+        if (key == "right" and soul_state == "buttons") then
+            on_button = on_button + 1
+            love.audio.play(menu_move)
+            if on_button == 5 then
+                on_button = 1
+            end
+        end
+
+        if ((key == "z" or key == "return") and soul_state == "buttons") then
+            love.audio.play(menu_confirm)
+        end
+    end
+    love.graphics.draw(heart, math.floor(player_x), math.floor(player_y))
 end

@@ -1,22 +1,22 @@
 if game_state == "encounter" then
     function update_kr()
-        if player_stats[3] < 1 then
-            if player_stats[6] > 0 then
-                player_stats[3] = 1
+        if player.hp < 1 then
+            if player.amt_of_kr > 0 then
+                player.hp = 1
             else
                 game_state = "death"
             end
         end
 
-        if player_stats[3] + player_stats[6] > player_stats[4] then
-            player_stats[3] = player_stats[4] - player_stats[6]
+        if player.hp + player.amt_of_kr > player.max_hp then
+            player.hp = player.max_hp - player.amt_of_kr
         end
 
-        if player_stats[6] > 0 then
+        if player.amt_of_kr > 0 then
             kr_time_since = kr_time_since + love.timer.getDelta()
-            if kr_time_since > 1.8 / (player_stats[6]) then
+            if kr_time_since > 1.8 / player.amt_of_kr then
                 kr_time_since = 0
-                player_stats[6] = player_stats[6] - 1
+                player.amt_of_kr = player.amt_of_kr - 1
             end
         end
     end
@@ -33,20 +33,20 @@ if game_state == "encounter" then
             "* I feel so UNDERLOVE right now!"
         }
 
-        set_text_params(flavor_text[1], 52, 274, dtm, false)
+        set_text_params(flavor_text[1], 52, 274, fonts.main, false, tick.dt)
         render_text = true
 
         box_x, box_y, box_width, box_height = 35, 253, 569, 134 -- starting positions of the box
 
-        player_stats = {
-            "Chara", -- name
-            1, -- lv
-            20, -- hp
-            20, -- max hp
-            false, -- has kr?
-            0, -- amt of kr (don't change)
-            0, -- def
-            0 -- atk
+        player = {
+            name = "chara",
+            lv = 1,
+            hp = 20,
+            max_hp = 20,
+            has_kr = false,
+            amt_of_kr = 0,
+            def = 0,
+            atk = 0
         }
     end
 
@@ -59,7 +59,7 @@ if game_state == "encounter" then
 
         love.graphics.setBackgroundColor(0, 0, 0)
         
-        love.graphics.draw(background_img)
+        -- love.graphics.draw(background_img)
                 
         draw_hp_and_healthbar()
         draw_buttons()
@@ -68,12 +68,8 @@ if game_state == "encounter" then
 
         love.graphics.setColor(1, 1, 1, 1)
             
-        love.graphics.setFont(dtm)
-        love.graphics.print(progString, x, y)
-        
-        if love.keyboard.isDown("1") then
-            love.graphics.setFont(dotumche)
-        end
+        love.graphics.setFont(fonts.main)
+        love.graphics.print(prog_string, x, y)
     end
 
     function love.update(dt)
