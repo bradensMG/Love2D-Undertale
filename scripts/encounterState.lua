@@ -30,10 +30,10 @@ if game_state == "encounter" then
             draw_attack()
         end
 
-        if render_text == false then
-            prog_string = ""
+        if render_text then
+            draw()     
         else
-            draw()
+            prog_string = ""
         end
 
         if show_debug then
