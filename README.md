@@ -1,4 +1,0 @@
-# Love2D-Undertale
-An UNDERTALE engine developed in LÖVE 11.5! Mainly designed for me, but I thought I'd make it open source for the fun of it. This is my first LÖVE project, so expect bad programming!</br></br>![A screenshot of the W.I.P battle engine](./github/images/screenshot.png "A Screenshot of the W.I.P battle engine")</br></br>Current plan for this engine is to get the encounter engine finished. After that, maybe I'll do overworld and shop, too.
-# Credits
-[sawby](https://github.com/bradensMG) (me) for programming the engine.</br>[bjornbytes](https://github.com/bjornbytes) for developing [tick](https://github.com/bjornbytes/tick), a library this engine heavily relies on.

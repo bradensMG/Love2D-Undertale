@@ -12,4 +12,9 @@ enemy3_setup = {
 }
 
 -- acts
-enemy1_acts
+
+
+
+flavor_text = {
+    "* I feel so UNDERLOVE right now!"
+}

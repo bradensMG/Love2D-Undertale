@@ -1,10 +1,13 @@
 tick = require "lib/tick"
 
-require("scripts/utils/text_utils")
-require("/scripts/soul")
-require("/scripts/ui")
-
 function preload()
+
+    require("scripts/text")
+    
+    require("/scripts/substates/uiSubstate")
+    require("/scripts/substates/playerSubstate")
+    require("scripts/substates/attackSubstate")
+
     -- fonts
     fonts = {
         main = love.graphics.newFont("assets/fonts/determination-mono.ttf", 32),
@@ -31,6 +34,8 @@ function preload()
     hp_name = love.graphics.newImage("/assets/images/ui/spr_hpname_0.png")
     kr = love.graphics.newImage("/assets/images/ui/spr_krmeter_0.png")
 
+    bone = love.graphics.newImage("sprite.png")
+
     -- audio
     ui_font = love.audio.newSource("assets/sound/sfx/Voices/uifont.wav", "static")
 
@@ -40,39 +45,20 @@ function preload()
     menu_confirm = love.audio.newSource("assets/sound/sfx/menuconfirm.wav", "static")
 end
 
-function set_text_params(my_string, my_x, my_y, my_font, my_mode, my_interval)
-    time_since = 0
-    i = 1
-    string = my_string
-    prog_string = ""
-    interval = my_interval
-    x = my_x
-    y = my_y
-    font = my_font
-    is_instant = my_mode
-end
-
-function hurt_player()
-    player.hp = player.hp - 1
-    if player_stats[5] == true then
-        if player.hp > 1 then
-            player.amt_of_kr = player.amt_of_kr + 1
-        else
-            player.amt_of_kr = player.amt_of_kr - 1
-        end
-    end
-end
-
 function love.load(arg)
     preload()
 
+    for _, font in pairs(fonts) do
+        font:setFilter("nearest", "nearest")
+    end
+
+    love.graphics.setDefaultFilter("nearest", "nearest")
+
     love.graphics.setBackgroundColor(0, 0, 0, 1)
 
-    tick.framerate = 60
-    love.window.setMode("640", "480")
-    love.window.setTitle("UNDERTALE")
+    tick.framerate = 30
 
     game_state = "encounter"
-    require(game_state)
+    require('scripts/' .. game_state .. 'State')
     battle_init()
 end

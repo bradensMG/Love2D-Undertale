@@ -66,6 +66,9 @@ function draw_buttons()
 end
 
 function draw_box(x, y, width, height)
+    love.graphics.setColor(0, 0, 0, 1)
+    love.graphics.rectangle('fill', math.floor(x), math.floor(y), math.floor(width), math.floor(height), 0, 0)
+
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.setLineWidth(4)
     love.graphics.rectangle('line', math.floor(x), math.floor(y), math.floor(width), math.floor(height), 0, 0)

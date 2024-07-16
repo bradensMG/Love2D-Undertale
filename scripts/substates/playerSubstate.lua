@@ -1,7 +1,51 @@
 heart, player_x, player_y = love.graphics.newImage("/assets/images/ut-heart.png"), 313, 310
 
-function soul()
+player = {
+    name = "chara",
+    lv = 1,
+    hp = 20,
+    max_hp = 20,
+    has_kr = false,
+    amt_of_kr = 0,
+    def = 0,
+    atk = 0
+}
+
+function hurt_player()
+    player.hp = player.hp - 1
+    if player_stats[5] == true then
+        if player.hp > 1 then
+            player.amt_of_kr = player.amt_of_kr + 1
+        else
+            player.amt_of_kr = player.amt_of_kr - 1
+        end
+    end
+end
+
+function update_kr()
+    if player.hp < 1 then
+        if player.amt_of_kr > 0 then
+            player.hp = 1
+        else
+            game_state = "death"
+        end
+    end
+end
+
+function draw_soul()
     love.graphics.setColor(1, 1, 1, 1)
+
+    if player.hp + player.amt_of_kr > player.max_hp then
+        player.hp = player.max_hp - player.amt_of_kr
+    end
+
+    if player.amt_of_kr > 0 then
+        kr_time_since = kr_time_since + love.timer.getDelta()
+        if kr_time_since > 1.8 / player.amt_of_kr then
+            kr_time_since = 0
+            player.amt_of_kr = player.amt_of_kr - 1
+        end
+    end
 
     maxright = box_x + (box_width) - 18
     maxleft = box_x + 2
@@ -80,5 +124,6 @@ function soul()
             love.audio.play(menu_confirm)
         end
     end
+
     love.graphics.draw(heart, math.floor(player_x), math.floor(player_y))
 end
