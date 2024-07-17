@@ -105,7 +105,7 @@ function draw()
             shakeY = 0
         end
 
-        love.graphics.print(char, x + shakeX, y + shakeY)
+        love.graphics.print(char, x + math.floor(shakeX), math.floor(y + shakeY))
 
         x = x + font:getWidth(char)
     end

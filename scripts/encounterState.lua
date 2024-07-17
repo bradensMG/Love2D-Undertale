@@ -9,7 +9,7 @@ if game_state == "encounter" then
 
         box_x, box_y, box_width, box_height = 35, 253, 569, 134 -- starting positions of the box
 
-        set_params('/f/w* A /y/aweird encounter/w/f lies beneath/n  you.', 52, 274, 2, fonts.main, 1 / 60, false, 'wave', ui_font)
+        set_params('/f/w* A /y/aweird encounter/w/f lies beneath/n  you.', 52, 274, 3, fonts.main, 1 / 60, false, 'wave', ui_font)
 
         render_text = true
 
