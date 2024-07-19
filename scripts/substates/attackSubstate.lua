@@ -13,6 +13,7 @@ function my_stencil_function()
    -- blue -- love.graphics.setColor(0, .75, 1, 1)
    -- orange -- love.graphics.setColor(1, .5, .2, 1)
    love.graphics.draw(bone, love.mouse.getX(), love.mouse.getY())
+   
    love.graphics.setShader()
 end
 
