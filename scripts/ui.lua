@@ -43,6 +43,7 @@ function draw_hp_and_healthbar()
 end
 
 function draw_buttons()
+    love.graphics.setColor(1, 1, 1, 1)
     if on_button == 1 then
         love.graphics.draw(button.fight_selected, 32, 432)
     else

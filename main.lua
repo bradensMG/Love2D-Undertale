@@ -2,11 +2,13 @@ tick = require "lib/tick"
 
 function preload()
 
-    require("scripts/text")
+    require("lib/text")
+
+    require "assets/enemies/enemies"
     
-    require("/scripts/substates/uiSubstate")
-    require("/scripts/substates/playerSubstate")
-    require("scripts/substates/attackSubstate")
+    require("/scripts/ui")
+    require("/scripts/player")
+    require("scripts/attacks")
 
     -- fonts
     fonts = {
@@ -59,6 +61,94 @@ function love.load(arg)
     tick.framerate = 30
 
     game_state = "encounter"
-    require('scripts/' .. game_state .. 'State')
     battle_init()
+end
+
+function battle_init()
+    kr_time_since = 0
+    movement = 1
+
+    inv_frame_timer = 0
+
+    box_x, box_y, box_width, box_height = 35, 253, 569, 134 -- starting positions of the box
+
+    if enemies.start_first then
+        on_button = 0
+        soul_state = "enemy turn"
+    else
+        on_button = 1
+        soul_state = "buttons"
+        set_params(enemies.encounter_text, 52, 274, 2, fonts.main, 1 / 60, false, 'wave', ui_font)
+        render_text = true
+    end
+
+    init_player()
+
+    show_debug = true
+end
+
+function love.draw()
+    love.graphics.setBackgroundColor(0, 0, 0)
+
+    if game_state == 'encounter' then
+        love.graphics.setBackgroundColor(0.15, 0.15, 0.15)
+            
+        -- love.graphics.draw(background_img)
+            
+        draw_hp_and_healthbar()
+        draw_buttons()
+        draw_box(box_x, box_y, box_width, box_height)
+        draw_soul()
+        draw_enemies()
+
+        if soul_state == "enemy turn" then
+            draw_attack()
+        end
+
+        if render_text then
+            draw()     
+        else
+            prog_string = ""
+        end
+
+        if show_debug then
+            love.graphics.setColor(1, 1, 1)
+            love.graphics.setFont(fonts.dialogue)
+            love.graphics.print("FPS: " .. math.floor(1 / love.timer.getDelta()), 4, 4)
+        end
+
+        love.graphics.setColor(1, 1, 1, 1)
+    end
+
+    if game_state == 'game over' then
+        love.graphics.setFont(love.graphics.newFont(12))
+        love.graphics.print("you died but i havent coded a game over screen in yet\n\npress z to retry\npress x to exit", 20, 20)
+    end
+
+end
+
+function love.update(dt)
+
+    if game_state == 'encounter' then
+        if render_text then
+            upd()
+        end
+
+        update_kr()
+
+        love.audio.setVolume(0)
+
+        battle_mus:setLooping(true)
+        battle_mus:play()
+    end
+
+    if game_state == 'game over' then
+        if love.keyboard.isDown('z') then
+            battle_init()
+            game_state = 'encounter'
+        elseif love.keyboard.isDown('x') then
+            love.event.quit()
+        end
+    end
+
 end

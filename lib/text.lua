@@ -50,6 +50,8 @@ function draw()
             local g = 0.5 + math.sin(love.timer.getTime() * letter_shake_amount * 2 + i + math.pi / 2) * 0.5 + 0.2
             local b = 0.5 + math.sin(love.timer.getTime() * letter_shake_amount * 2 + i + math.pi) * 0.5 + 0.2
             love.graphics.setColor(r, g, b, 1)
+        elseif txt_color == 'c' then
+            love.graphics.setColor(0, 1, 1, 1)
         end
         
         if char == '/' then
@@ -89,6 +91,9 @@ function draw()
             elseif char == 'f' then
                 x = x - (font:getWidth(char))
                 text_animates = false
+            elseif char == 'c' then
+                x = x - (font:getWidth(char))
+                txt_color = char
             end
         end
 

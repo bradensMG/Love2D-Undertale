@@ -1,19 +1,24 @@
-heart, player_x, player_y = love.graphics.newImage("/assets/images/ut-heart.png"), 313, 310
-
-player = {
-    name = "chara",
-    lv = 1,
-    hp = 20,
-    max_hp = 20,
-    has_kr = false,
-    amt_of_kr = 0,
-    def = 0,
-    atk = 0
-}
+function init_player()
+    player = {
+        name = " ",
+        lv = 1,
+        hp = 20,
+        max_hp = 20,
+        has_kr = false,
+        amt_of_kr = 0,
+        def = 0,
+        atk = 0,
+        inv_frames = 30,
+        hitbox_leniency = 6,
+        img = love.graphics.newImage("/assets/images/ut-heart.png"),
+        x = 313,
+        y = 310
+    }
+end
 
 function hurt_player()
-    player.hp = player.hp - 1
-    if player_stats[5] == true then
+    player.hp = player.hp - 5
+    if player.has_kr then
         if player.hp > 1 then
             player.amt_of_kr = player.amt_of_kr + 1
         else
@@ -24,10 +29,10 @@ end
 
 function update_kr()
     if player.hp < 1 then
-        if player.amt_of_kr > 0 then
+        if player.amt_of_kr > 1 then
             player.hp = 1
         else
-            game_state = "death"
+            game_state = 'game over'
         end
     end
 end
@@ -53,53 +58,53 @@ function draw_soul()
     maxdown = box_y + 2
 
     if love.keyboard.isDown("x") then
-        player_speed = 2 * love.timer.getDelta() * 30
+        player.speed = 2 * love.timer.getDelta() * 30
     else
-        player_speed = 4 * love.timer.getDelta() * 30
+        player.speed = 4 * love.timer.getDelta() * 30
     end
 
     if soul_state == "enemy turn" then
         if movement == 1 then
             if love.keyboard.isDown("down") then 
-                player_y = player_y + player_speed 
+                player.y = player.y + player.speed 
             end
             if love.keyboard.isDown("up") then 
-                player_y = player_y - player_speed
+                player.y = player.y - player.speed
             end
             if love.keyboard.isDown("right") then 
-                player_x = player_x + player_speed
+                player.x = player.x + player.speed
             end
             if love.keyboard.isDown("left") then 
-                player_x = player_x - player_speed
+                player.x = player.x - player.speed
             end
         end
-        if player_x > maxright then
-            player_x = maxright
+        if player.x > maxright then
+            player.x = maxright
         end
-        if player_x < maxleft then
-            player_x = maxleft
+        if player.x < maxleft then
+            player.x = maxleft
         end
-        if player_y > maxup then
-            player_y = maxup
+        if player.y > maxup then
+            player.y = maxup
         end
-        if player_y < maxdown then
-            player_y = maxdown
+        if player.y < maxdown then
+            player.y = maxdown
         end
     end
 
     if soul_state == "buttons" then
         if on_button == 1 then 
-            player_x = 40
-            player_y = 446
+            player.x = 40
+            player.y = 446
         elseif on_button == 2 then
-            player_x = 193
-            player_y = 446
+            player.x = 193
+            player.y = 446
         elseif on_button == 3 then
-            player_x = 353
-            player_y = 446
+            player.x = 353
+            player.y = 446
         elseif on_button == 4 then
-            player_x = 508
-            player_y = 446
+            player.x = 508
+            player.y = 446
         end
     end
 
@@ -125,5 +130,5 @@ function draw_soul()
         end
     end
 
-    love.graphics.draw(heart, math.floor(player_x), math.floor(player_y))
+    love.graphics.draw(player.img, math.floor(player.x), math.floor(player.y))
 end
