@@ -38,5 +38,5 @@ there is no enemy 3. this is unused
 
 enemies = {
     encounter_text = "/f/w* /cTest Monster /wand its /ycohort/n  /wdraw near!",
-    start_first = true
+    start_first = false
 }
