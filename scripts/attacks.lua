@@ -31,8 +31,7 @@ function draw_attack()
     love.graphics.setStencilTest()
 
    if CheckCollision(player.x + player.hitbox_leniency, player.y + player.hitbox_leniency, player.img:getWidth() - (player.hitbox_leniency * 2), player.img:getHeight() - (player.hitbox_leniency * 2), love.mouse.getX(), love.mouse.getY(), 10, 100) then
-      inv_frame_timer = inv_frame_timer + (love.timer.getDelta() * 30)
-      if inv_frame_timer > player.inv_frames then
+      if inv_frame_timer == player.inv_frames then
          inv_frame_timer = 0
          hurt_player()
       end

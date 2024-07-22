@@ -8,16 +8,21 @@ function init_player()
         amt_of_kr = 0,
         def = 0,
         atk = 0,
-        inv_frames = 30,
-        hitbox_leniency = 6,
+        inv_frames = 15,
+        hitbox_leniency = 5,
         img = love.graphics.newImage("/assets/images/ut-heart.png"),
         x = 313,
-        y = 310
+        y = 0,
+        gravity = 0,
+        hurt = love.audio.newSource("/assets/sound/sfx/snd_hurt1.wav", "stream")
     }
 end
 
 function hurt_player()
-    player.hp = player.hp - 5
+    player.hurt:stop()
+    player.hurt:play()
+    
+    player.hp = player.hp - 4
     if player.has_kr then
         if player.hp > 1 then
             player.amt_of_kr = player.amt_of_kr + 1
@@ -34,6 +39,13 @@ function update_kr()
         else
             game_state = 'game over'
         end
+    end
+end
+
+function update_inv_frames()
+    inv_frame_timer = inv_frame_timer + (love.timer.getDelta() * 30)
+    if inv_frame_timer > player.inv_frames then
+        inv_frame_timer = player.inv_frames
     end
 end
 
@@ -54,8 +66,8 @@ function draw_soul()
 
     maxright = box_x + (box_width) - 18
     maxleft = box_x + 2
-    maxup = box_y + (box_height) - 18
-    maxdown = box_y + 2
+    maxup = box_y + 2
+    maxdown = box_y + (box_height) - 18
 
     if love.keyboard.isDown("x") then
         player.speed = 2 * love.timer.getDelta() * 30
@@ -77,18 +89,40 @@ function draw_soul()
             if love.keyboard.isDown("left") then 
                 player.x = player.x - player.speed
             end
+        elseif movement == 2 then
+
+            if love.keyboard.isDown("left") then 
+                player.x = player.x - player.speed
+            end
+
+            if love.keyboard.isDown("right") then 
+                player.x = player.x + player.speed
+            end
+
+            if player.y < maxdown then
+                player.gravity = player.gravity + 1
+            end
+
+            if love.keyboard.isDown("up") and player.y == maxdown then
+                player.gravity = -6
+            end
+
+            player.y = player.y + player.gravity
+            
         end
+
         if player.x > maxright then
             player.x = maxright
         end
         if player.x < maxleft then
             player.x = maxleft
         end
-        if player.y > maxup then
-            player.y = maxup
-        end
-        if player.y < maxdown then
+        if player.y > maxdown then
             player.y = maxdown
+            player.gravity = 0
+        end
+        if player.y < maxup then
+            player.y = maxup
         end
     end
 
@@ -109,24 +143,33 @@ function draw_soul()
     end
 
     function love.keypressed(key, scancode, isrepeat)
-        if (key == "left" and soul_state == "buttons") then
-            love.audio.play(menu_move)
-            on_button = on_button - 1
-            if on_button == 0 then
-                on_button = 4
+        if key == "left" then
+            if soul_state == "buttons" then
+                love.audio.play(menu_move)
+                on_button = on_button - 1
+                if on_button == 0 then
+                    on_button = 4
+                end
             end
         end
 
-        if (key == "right" and soul_state == "buttons") then
-            on_button = on_button + 1
-            love.audio.play(menu_move)
-            if on_button == 5 then
-                on_button = 1
+        if key == "right" then
+            if soul_state == "buttons" then
+                on_button = on_button + 1
+                love.audio.play(menu_move)
+                if on_button == 5 then
+                    on_button = 1
+                end
             end
         end
 
-        if ((key == "z" or key == "return") and soul_state == "buttons") then
-            love.audio.play(menu_confirm)
+        if (key == "z" or key == "return") then
+            if soul_state == "buttons" then
+                love.audio.play(menu_confirm)
+                if on_button == 1 then
+                    soul_state = "choose enemy"
+                end
+            end
         end
     end
 

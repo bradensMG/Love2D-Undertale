@@ -4,7 +4,7 @@ function preload()
 
     require("lib/text")
 
-    require "assets/enemies/enemies"
+    require("assets/enemies/enemies")
     
     require("/scripts/ui")
     require("/scripts/player")
@@ -47,6 +47,15 @@ function preload()
     menu_confirm = love.audio.newSource("assets/sound/sfx/menuconfirm.wav", "static")
 end
 
+function shake_screen(times, radius)
+    local count = 0
+    repeat
+        x_rad = love.math.random(-radius, radius) 
+        y_rad = love.math.random(-radius, radius)
+        count = count + 1
+    until count > times
+end
+
 function love.load(arg)
     preload()
 
@@ -68,8 +77,6 @@ function battle_init()
     kr_time_since = 0
     movement = 1
 
-    inv_frame_timer = 0
-
     box_x, box_y, box_width, box_height = 35, 253, 569, 134 -- starting positions of the box
 
     if enemies.start_first then
@@ -84,13 +91,19 @@ function battle_init()
 
     init_player()
 
+    inv_frame_timer = player.inv_frames
+
     show_debug = true
 end
 
 function love.draw()
     love.graphics.setBackgroundColor(0, 0, 0)
 
+    shake_screen(1, 1)
+    love.graphics.translate(x_rad, y_rad)
+
     if game_state == 'encounter' then
+        love.graphics.print(player.gravity, 4, 24)
         love.graphics.setBackgroundColor(0.15, 0.15, 0.15)
             
         -- love.graphics.draw(background_img)
@@ -135,14 +148,16 @@ function love.update(dt)
         end
 
         update_kr()
+        update_inv_frames()
 
-        love.audio.setVolume(0)
+        love.audio.setVolume(1)
 
         battle_mus:setLooping(true)
         battle_mus:play()
     end
 
     if game_state == 'game over' then
+        battle_mus:stop()
         if love.keyboard.isDown('z') then
             battle_init()
             game_state = 'encounter'
