@@ -41,5 +41,5 @@ end
 enemies = {
     amount = 2,
     encounter_text = "/f/w* /cTest Monster /wand its /ycohort/n  /wdraw near!",
-    start_first = false
+    start_first = true
 }

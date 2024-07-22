@@ -14,7 +14,19 @@ function init_player()
         x = 313,
         y = 0,
         gravity = 0,
-        hurt = love.audio.newSource("/assets/sound/sfx/snd_hurt1.wav", "stream")
+        hurt = love.audio.newSource("/assets/sound/sfx/snd_hurt1.wav", "stream"),
+        sub_choice = 1
+    }
+
+    inventory = {
+        "Item 1",
+        "Item 2",
+        "Item 3",
+        "Item 4",
+        "Item 5",
+        "Item 6",
+        "Item 7",
+        "Item 8"
     }
 end
 
@@ -147,6 +159,24 @@ function draw_soul()
             player.x = 508
             player.y = 446
         end
+    elseif soul_state == "choose enemy" then
+        player.x = 52
+        if player.sub_choice == 1 then
+            player.y = 278
+        elseif player.sub_choice == 2 then
+            player.y = 310
+        elseif player.sub_choice == 3 then
+            player.y = 342
+        end
+    elseif soul_state == "items" then
+        player.x, player.y = 64, 278
+    elseif soul_state == "mercy" then
+        player.x = 52
+        if player.sub_choice == 1 then
+            player.y = 278
+        elseif player.sub_choice == 2 then
+            player.y = 310
+        end
     end
 
     function love.keypressed(key, scancode, isrepeat)
@@ -175,12 +205,17 @@ function draw_soul()
                 love.audio.play(menu_confirm)
                 if on_button == 1 or on_button == 2 then
                     soul_state = "choose enemy"
+                elseif on_button == 3 then
+                    items_page = 1
+                    soul_state = "items"
+                elseif on_button == 4 then
+                    soul_state = "mercy"
                 end
             end
         end
 
         if (key == "x" or key == "return") then
-            if soul_state == "choose enemy" then
+            if soul_state == "choose enemy" or "items" or "mercy" then
                 soul_state = "buttons"
                 instance.prog_string = instance.text
             end

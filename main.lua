@@ -21,7 +21,11 @@ function preload()
     }
 
     -- images
-    reference_img = love.graphics.newImage("assets/images/ref.png")
+    refs = {
+        main = love.graphics.newImage("assets/images/refs/main.png"),
+        items = love.graphics.newImage("assets/images/refs/items.png")
+    }
+
     background_img = love.graphics.newImage("assets/images/spr_battlebg_0.png")
 
     button = {
@@ -127,6 +131,33 @@ function love.draw()
             if enemies.amount > 0 then love.graphics.print("  * " .. enemy1_setup.name, 52, 274) end
             if enemies.amount > 1 then love.graphics.print("  * " .. enemy2_setup.name, 52, 306) end
             if enemies.amount > 2 then love.graphics.print("  * " .. enemy3_setup.name, 52, 338) end
+        elseif soul_state == "items" then
+            render_text = false
+            instance.prog_string = ""
+            love.graphics.setFont(fonts.main)
+            if items_page == 1 then
+                love.graphics.print("* " .. inventory[1], 100, 274)
+                love.graphics.print("* " .. inventory[2], 340, 274)
+                love.graphics.print("* " .. inventory[3], 100, 306)
+                love.graphics.print("* " .. inventory[4], 340, 306)
+                love.graphics.print("PAGE 1", 388, 338)
+            elseif items_page == 2 then
+                love.graphics.print("* " .. inventory[5], 100, 274)
+                love.graphics.print("* " .. inventory[6], 340, 274)
+                love.graphics.print("* " .. inventory[7], 100, 306)
+                love.graphics.print("* " .. inventory[8], 340, 306)
+                love.graphics.print("PAGE 2", 388, 338)
+            else
+                love.graphics.print("what", 52, 274)
+            end
+            -- love.graphics.setColor(1, 1, 1, .25)
+            -- love.graphics.draw(refs.items, 0, 1, 0, .5)
+        elseif soul_state == "mercy" then
+            render_text = false
+            instance.prog_string = ""
+            love.graphics.setFont(fonts.main)
+            love.graphics.print("  * Spare", 52, 274)
+            love.graphics.print("  * Flee", 52, 306)
         end
 
         draw()
