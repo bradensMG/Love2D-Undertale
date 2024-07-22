@@ -44,13 +44,19 @@ end
 
 function update_inv_frames()
     inv_frame_timer = inv_frame_timer + (love.timer.getDelta() * 30)
+    player.darken = true
     if inv_frame_timer > player.inv_frames then
         inv_frame_timer = player.inv_frames
+        player.darken = false
     end
 end
 
 function draw_soul()
-    love.graphics.setColor(1, 1, 1, 1)
+    if player.darken then
+        love.graphics.setColor(.75, .75, .75)
+    else
+        love.graphics.setColor(1, 1, 1)
+    end
 
     if player.hp + player.amt_of_kr > player.max_hp then
         player.hp = player.max_hp - player.amt_of_kr
@@ -64,10 +70,10 @@ function draw_soul()
         end
     end
 
-    maxright = box_x + (box_width) - 18
-    maxleft = box_x + 2
-    maxup = box_y + 2
-    maxdown = box_y + (box_height) - 18
+    maxright = arena.x + (arena.width) - 18
+    maxleft = arena.x + 2
+    maxup = arena.y + 2
+    maxdown = arena.y + (arena.height) - 18
 
     if love.keyboard.isDown("x") then
         player.speed = 2 * love.timer.getDelta() * 30
@@ -76,6 +82,7 @@ function draw_soul()
     end
 
     if soul_state == "enemy turn" then
+
         if movement == 1 then
             if love.keyboard.isDown("down") then 
                 player.y = player.y + player.speed 
@@ -89,8 +96,8 @@ function draw_soul()
             if love.keyboard.isDown("left") then 
                 player.x = player.x - player.speed
             end
-        elseif movement == 2 then
 
+        elseif movement == 2 then
             if love.keyboard.isDown("left") then 
                 player.x = player.x - player.speed
             end
@@ -166,9 +173,16 @@ function draw_soul()
         if (key == "z" or key == "return") then
             if soul_state == "buttons" then
                 love.audio.play(menu_confirm)
-                if on_button == 1 then
+                if on_button == 1 or on_button == 2 then
                     soul_state = "choose enemy"
                 end
+            end
+        end
+
+        if (key == "x" or key == "return") then
+            if soul_state == "choose enemy" then
+                soul_state = "buttons"
+                instance.prog_string = instance.text
             end
         end
     end

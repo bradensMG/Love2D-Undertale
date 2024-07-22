@@ -1,8 +1,10 @@
 tick = require "lib/tick"
+screen = require "lib/shack"
+attacks = require "scripts/attacks"
 
 function preload()
 
-    require("lib/text")
+    require("lib/writer")
 
     require("assets/enemies/enemies")
     
@@ -47,17 +49,10 @@ function preload()
     menu_confirm = love.audio.newSource("assets/sound/sfx/menuconfirm.wav", "static")
 end
 
-function shake_screen(times, radius)
-    local count = 0
-    repeat
-        x_rad = love.math.random(-radius, radius) 
-        y_rad = love.math.random(-radius, radius)
-        count = count + 1
-    until count > times
-end
-
 function love.load(arg)
     preload()
+
+    screen:setDimensions(640, 480)
 
     for _, font in pairs(fonts) do
         font:setFilter("nearest", "nearest")
@@ -77,6 +72,15 @@ function battle_init()
     kr_time_since = 0
     movement = 1
 
+    raw_attack_timer = 0
+
+    arena = {
+        x = 35,
+        y = 253,
+        width = 569,
+        height = 134
+    }
+
     box_x, box_y, box_width, box_height = 35, 253, 569, 134 -- starting positions of the box
 
     if enemies.start_first then
@@ -85,50 +89,51 @@ function battle_init()
     else
         on_button = 1
         soul_state = "buttons"
-        set_params(enemies.encounter_text, 52, 274, 2, fonts.main, 1 / 60, false, 'wave', ui_font)
+        set_params(enemies.encounter_text, 52, 274, 2, fonts.main, 1 / 60, false, 'wave', ui_font, "")
         render_text = true
     end
 
     init_player()
 
     inv_frame_timer = player.inv_frames
-
-    show_debug = true
 end
 
 function love.draw()
-    love.graphics.setBackgroundColor(0, 0, 0)
+    screen:apply()
 
-    shake_screen(1, 1)
-    love.graphics.translate(x_rad, y_rad)
+    love.graphics.setBackgroundColor(0, 0, 0)
 
     if game_state == 'encounter' then
         love.graphics.print(player.gravity, 4, 24)
-        love.graphics.setBackgroundColor(0.15, 0.15, 0.15)
+        love.graphics.setBackgroundColor(0.15, 0.2, 0.25)
             
         -- love.graphics.draw(background_img)
             
         draw_hp_and_healthbar()
         draw_buttons()
-        draw_box(box_x, box_y, box_width, box_height)
+        draw_box(arena.x, arena.y, arena.width, arena.height)
         draw_soul()
         draw_enemies()
 
         if soul_state == "enemy turn" then
-            draw_attack()
+            draw_bullets()
+            love.graphics.print(attack_timer, 0, 50)
         end
 
-        if render_text then
-            draw()     
-        else
-            prog_string = ""
+        if soul_state == "choose enemy" then
+            render_text = false
+            instance.prog_string = ""
+            love.graphics.setFont(fonts.main)
+            if enemies.amount > 0 then love.graphics.print("  * " .. enemy1_setup.name, 52, 274) end
+            if enemies.amount > 1 then love.graphics.print("  * " .. enemy2_setup.name, 52, 306) end
+            if enemies.amount > 2 then love.graphics.print("  * " .. enemy3_setup.name, 52, 338) end
         end
 
-        if show_debug then
-            love.graphics.setColor(1, 1, 1)
-            love.graphics.setFont(fonts.dialogue)
-            love.graphics.print("FPS: " .. math.floor(1 / love.timer.getDelta()), 4, 4)
-        end
+        draw()
+
+        love.graphics.setColor(1, 1, 1)
+        love.graphics.setFont(fonts.dialogue)
+        love.graphics.print("FPS: " .. math.floor(1 / love.timer.getDelta()), 4, 4)
 
         love.graphics.setColor(1, 1, 1, 1)
     end
@@ -141,10 +146,21 @@ function love.draw()
 end
 
 function love.update(dt)
+    screen:update(dt)
 
     if game_state == 'encounter' then
+
         if render_text then
             upd()
+        end
+
+        if soul_state == "enemy turn" then
+            update_bullets()
+            raw_attack_timer = raw_attack_timer + tick.dt * 30
+            attack_timer = math.floor(raw_attack_timer)
+            enemies_attack()
+        else
+            raw_attack_timer = 0
         end
 
         update_kr()

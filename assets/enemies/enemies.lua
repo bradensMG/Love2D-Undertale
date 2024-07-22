@@ -22,21 +22,24 @@ enemy2_setup = {
 }
 
 function draw_enemies()
+    love.graphics.setColor(1, 1, 1)
     love.graphics.draw(enemy1_setup.image, enemy1_setup.x, enemy1_setup.y)
     love.graphics.draw(enemy2_setup.image, enemy2_setup.x, enemy2_setup.y)
 end
 
---[[
-enemy3_setup = {
-
-}
-
-there is no enemy 3. this is unused
-]]--
+function enemies_attack()
+    if attack_timer == 10 then
+        create_bullet(0, 275, 5, 0)
+    end
+    if attack_timer == 15 then
+        create_bullet(0, 275, 10, 0)
+    end
+end
 
 -- acts
 
 enemies = {
+    amount = 2,
     encounter_text = "/f/w* /cTest Monster /wand its /ycohort/n  /wdraw near!",
     start_first = false
 }
