@@ -38,8 +38,16 @@ end
 
 -- acts
 
+enemy1_acts = {
+    "Check"
+}
+
+enemy2_acts = {
+    "Check"
+}
+
 enemies = {
     amount = 2,
     encounter_text = "/f/w* /cTest Monster /wand its /ycohort/n  /wdraw near!",
-    start_first = true
+    start_first = false
 }

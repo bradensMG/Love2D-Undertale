@@ -187,7 +187,7 @@ function love.update(dt)
 
         if soul_state == "enemy turn" then
             update_bullets()
-            raw_attack_timer = raw_attack_timer + tick.dt * 30
+            raw_attack_timer = raw_attack_timer + love.timer.getDelta() * tick.framerate
             attack_timer = math.floor(raw_attack_timer)
             enemies_attack()
         else
@@ -197,7 +197,7 @@ function love.update(dt)
         update_kr()
         update_inv_frames()
 
-        love.audio.setVolume(1)
+        love.audio.setVolume(0.1)
 
         battle_mus:setLooping(true)
         battle_mus:play()

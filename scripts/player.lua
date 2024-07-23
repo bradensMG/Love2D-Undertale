@@ -181,6 +181,7 @@ function draw_soul()
 
     function love.keypressed(key, scancode, isrepeat)
         if key == "left" then
+
             if soul_state == "buttons" then
                 love.audio.play(menu_move)
                 on_button = on_button - 1
@@ -188,9 +189,11 @@ function draw_soul()
                     on_button = 4
                 end
             end
+
         end
 
         if key == "right" then
+
             if soul_state == "buttons" then
                 on_button = on_button + 1
                 love.audio.play(menu_move)
@@ -198,9 +201,29 @@ function draw_soul()
                     on_button = 1
                 end
             end
+
+        end
+
+        if key == "up" then
+
+            if soul_state == "choose enemy" and player.sub_choice > 1 then
+                love.audio.play(menu_move)
+                player.sub_choice = player.sub_choice - 1
+            end
+
+        end
+
+        if key == "down" then
+
+            if soul_state == "choose enemy" and player.sub_choice < enemies.amount then
+                love.audio.play(menu_move)
+                player.sub_choice = player.sub_choice + 1
+            end
+
         end
 
         if (key == "z" or key == "return") then
+
             if soul_state == "buttons" then
                 love.audio.play(menu_confirm)
                 if on_button == 1 or on_button == 2 then
@@ -212,13 +235,16 @@ function draw_soul()
                     soul_state = "mercy"
                 end
             end
+
         end
 
         if (key == "x" or key == "return") then
-            if soul_state == "choose enemy" or "items" or "mercy" then
+
+            if soul_state == "choose enemy" or soul_state == "items" or soul_state == "mercy" then
                 soul_state = "buttons"
                 instance.prog_string = instance.text
             end
+
         end
     end
 
