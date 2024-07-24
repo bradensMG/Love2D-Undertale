@@ -7,7 +7,8 @@ enemy1_setup = {
     def = 1,
     atk = 1,
     check_msg = "/f/w* A big heart and a big build./s/s/s/s/s/n* Please be gentle with it.",
-    can_spare = true
+    can_spare = true,
+    status = "alive"
 }
 
 enemy2_setup = {
@@ -18,13 +19,30 @@ enemy2_setup = {
     def = 5,
     atk = 2,
     check_msg = "/f/w* He's as heavy as a rock./s/s/s/s/s/n* Just as strong as one, too.",
-    can_spare = false
+    can_spare = false,
+    status = "alive"
 }
 
 function draw_enemies()
-    love.graphics.setColor(1, 1, 1)
-    love.graphics.draw(enemy1_setup.image, enemy1_setup.x, enemy1_setup.y)
-    love.graphics.draw(enemy2_setup.image, enemy2_setup.x, enemy2_setup.y)
+    if enemy1_setup.status == "alive" then
+        love.graphics.setColor(1, 1, 1)
+    else
+        love.graphics.setColor(1, 1, 1, .5)
+    end
+
+    if enemy1_setup.status ~= "dead" then
+        love.graphics.draw(enemy1_setup.image, enemy1_setup.x, enemy1_setup.y)
+    end
+
+    if enemy2_setup.status == "alive" then
+        love.graphics.setColor(1, 1, 1)
+    else
+        love.graphics.setColor(1, 1, 1, .5)
+    end
+
+    if enemy2_setup.status ~= "dead" then
+        love.graphics.draw(enemy2_setup.image, enemy2_setup.x, enemy2_setup.y)
+    end
 end
 
 function enemies_attack()
@@ -49,5 +67,6 @@ enemy2_acts = {
 enemies = {
     amount = 2,
     encounter_text = "/f/w* /cTest Monster /wand its /ycohort/n  /wdraw near!",
-    start_first = false
+    start_first = false,
+    can_flee = true
 }

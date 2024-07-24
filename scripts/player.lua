@@ -158,9 +158,12 @@ function draw_soul()
         elseif on_button == 4 then
             player.x = 508
             player.y = 446
-        end
+        end 
+           
     elseif soul_state == "choose enemy" then
+
         player.x = 52
+
         if player.sub_choice == 1 then
             player.y = 278
         elseif player.sub_choice == 2 then
@@ -168,10 +171,34 @@ function draw_soul()
         elseif player.sub_choice == 3 then
             player.y = 342
         end
+
     elseif soul_state == "items" then
-        player.x, player.y = 64, 278
+        if player.sub_choice > #inventory then
+            player.sub_choice = 1
+        elseif player.sub_choice < 1 then
+            player.sub_choice = #inventory
+        end
+
+        if player.sub_choice == 1 or player.sub_choice == 5 then
+            player.x, player.y = 64, 278
+        elseif player.sub_choice == 2 or player.sub_choice == 6 then
+            player.x, player.y = 304, 278
+        elseif player.sub_choice == 3 or player.sub_choice == 7 then
+            player.x, player.y = 64, 310
+        elseif player.sub_choice == 4 or player.sub_choice == 8 then
+            player.x, player.y = 304, 310
+        end
+
+        if player.sub_choice > 4 then
+            items_page = 2
+        elseif player.sub_choice < 5 then
+            items_page = 1
+        end
+
     elseif soul_state == "mercy" then
+
         player.x = 52
+
         if player.sub_choice == 1 then
             player.y = 278
         elseif player.sub_choice == 2 then
@@ -190,6 +217,11 @@ function draw_soul()
                 end
             end
 
+            if soul_state == "items" then
+                love.audio.play(menu_move)
+                player.sub_choice = player.sub_choice - 1
+            end
+
         end
 
         if key == "right" then
@@ -202,11 +234,26 @@ function draw_soul()
                 end
             end
 
+            if soul_state == "items" then
+                love.audio.play(menu_move)
+                player.sub_choice = player.sub_choice + 1
+            end
+
         end
 
         if key == "up" then
 
             if soul_state == "choose enemy" and player.sub_choice > 1 then
+                love.audio.play(menu_move)
+                player.sub_choice = player.sub_choice - 1
+            end
+
+            if soul_state == "items" then
+                love.audio.play(menu_move)
+                player.sub_choice = player.sub_choice - 2
+            end
+
+            if soul_state == "mercy" and player.sub_choice > 1 then
                 love.audio.play(menu_move)
                 player.sub_choice = player.sub_choice - 1
             end
@@ -220,25 +267,48 @@ function draw_soul()
                 player.sub_choice = player.sub_choice + 1
             end
 
+            if soul_state == "items" then
+                love.audio.play(menu_move)
+                player.sub_choice = player.sub_choice + 2
+            end
+
+            if soul_state == "mercy" and (enemies.can_flee and player.sub_choice == 1) then
+                love.audio.play(menu_move)
+                player.sub_choice = player.sub_choice + 1
+            end
+
         end
 
         if (key == "z" or key == "return") then
 
+            if soul_state == "choose enemy" then
+                if on_button == 1 then
+                    soul_state = nil
+                    on_button = 0
+                elseif on_button == 2 then
+                    chosen_enemy = player.sub_choice
+                    soul_state = "act"
+                end
+            end
+
             if soul_state == "buttons" then
                 love.audio.play(menu_confirm)
                 if on_button == 1 or on_button == 2 then
+                    player.sub_choice = 1
                     soul_state = "choose enemy"
                 elseif on_button == 3 then
                     items_page = 1
+                    player.sub_choice = 1
                     soul_state = "items"
                 elseif on_button == 4 then
+                    player.sub_choice = 1
                     soul_state = "mercy"
                 end
             end
 
         end
 
-        if (key == "x" or key == "return") then
+        if (key == "x" or key == "rshift") then
 
             if soul_state == "choose enemy" or soul_state == "items" or soul_state == "mercy" then
                 soul_state = "buttons"
@@ -248,5 +318,7 @@ function draw_soul()
         end
     end
 
-    love.graphics.draw(player.img, math.floor(player.x), math.floor(player.y))
+    if soul_state ~= nil then
+        love.graphics.draw(player.img, math.floor(player.x), math.floor(player.y))
+    end
 end
