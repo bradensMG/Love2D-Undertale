@@ -59,7 +59,7 @@ function draw_bullets()
    for i, bullet in ipairs(bullets) do
       love.graphics.stencil(my_stencil_function, "replace", 1)
       love.graphics.setStencilTest("greater", 0)
-      love.graphics.rectangle("fill", box_x + 2, box_y + 2, box_width - 4, box_height - 4)
+      love.graphics.rectangle("fill", arena.x + 2, arena.y + 2, arena.width - 4, arena.height - 4)
       love.graphics.setStencilTest()
    end
 end

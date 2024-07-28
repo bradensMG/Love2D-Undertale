@@ -172,6 +172,48 @@ function draw_soul()
             player.y = 342
         end
 
+    elseif soul_state == "act" then
+
+        if chosen_enemy == 1 then
+            if player.sub_choice > #enemy1_acts then
+                player.sub_choice = 1
+            elseif player.sub_choice < 1 then
+                player.sub_choice = #enemy1_acts
+            end
+        elseif chosen_enemy == 2 then
+            if player.sub_choice > #enemy2_acts then
+                player.sub_choice = 1
+            elseif player.sub_choice < 1 then
+                player.sub_choice = #enemy2_acts
+            end
+        elseif chosen_enemy == 3 then
+            if player.sub_choice > #enemy3_acts then
+                player.sub_choice = 1
+            elseif player.sub_choice < 1 then
+                player.sub_choice = #enemy3_acts
+            end
+        end
+
+        if player.sub_choice == 1 then
+            player.x = 52
+            player.y = 278
+        elseif player.sub_choice == 2 then
+            player.x = 288
+            player.y = 278
+        elseif player.sub_choice == 3 then
+            player.x = 52
+            player.y = 310
+        elseif player.sub_choice == 4 then
+            player.x = 288
+            player.y = 310
+        elseif player.sub_choice == 5 then
+            player.x = 52
+            player.y = 342
+        elseif player.sub_choice == 6 then
+            player.x = 288
+            player.y = 342
+        end
+
     elseif soul_state == "items" then
         if player.sub_choice > #inventory then
             player.sub_choice = 1
@@ -217,7 +259,7 @@ function draw_soul()
                 end
             end
 
-            if soul_state == "items" then
+            if soul_state == "act" or soul_state == "items" then
                 love.audio.play(menu_move)
                 player.sub_choice = player.sub_choice - 1
             end
@@ -234,7 +276,7 @@ function draw_soul()
                 end
             end
 
-            if soul_state == "items" then
+            if soul_state == "act" or soul_state == "items" then
                 love.audio.play(menu_move)
                 player.sub_choice = player.sub_choice + 1
             end
@@ -248,7 +290,7 @@ function draw_soul()
                 player.sub_choice = player.sub_choice - 1
             end
 
-            if soul_state == "items" then
+            if soul_state == "act" or soul_state == "items" then
                 love.audio.play(menu_move)
                 player.sub_choice = player.sub_choice - 2
             end
@@ -267,7 +309,7 @@ function draw_soul()
                 player.sub_choice = player.sub_choice + 1
             end
 
-            if soul_state == "items" then
+            if soul_state == "act" or soul_state == "items" then
                 love.audio.play(menu_move)
                 player.sub_choice = player.sub_choice + 2
             end
@@ -281,12 +323,19 @@ function draw_soul()
 
         if (key == "z" or key == "return") then
 
+            if soul_state == "act" then
+                do_act()
+                on_button = 0
+                soul_state = nil
+            end
+
             if soul_state == "choose enemy" then
                 if on_button == 1 then
                     soul_state = nil
                     on_button = 0
                 elseif on_button == 2 then
                     chosen_enemy = player.sub_choice
+                    player.sub_choice = 1
                     soul_state = "act"
                 end
             end
@@ -313,6 +362,11 @@ function draw_soul()
             if soul_state == "choose enemy" or soul_state == "items" or soul_state == "mercy" then
                 soul_state = "buttons"
                 instance.prog_string = instance.text
+            end
+
+            if soul_state == "act" then
+                player.sub_choice = 1
+                soul_state = "choose enemy"
             end
 
         end

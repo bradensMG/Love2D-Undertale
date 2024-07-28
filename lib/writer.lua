@@ -1,5 +1,11 @@
 writer = {}
 
+function stop()
+    for i, instance in ipairs(writer) do
+        instance.text = ""
+    end
+end
+
 function set_params(my_str, my_x, my_y, my_rad, my_font, my_timing, my_mode, my_effect, my_sound)
     instance = {
     text = my_str,
