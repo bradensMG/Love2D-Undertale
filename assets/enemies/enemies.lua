@@ -54,13 +54,8 @@ function draw_enemies()
 end
 
 function enemies_attack()
-    if attack_timer == 10 then
-        create_bullet(0, 275, 5, 0)
-        create_bullet(0, 275, 6, 0)
-        create_bullet(0, 275, 7, 0)
-        create_bullet(0, 275, 8, 0)
-        create_bullet(0, 275, 9, 0)
-        create_bullet(0, 275, 10, 0)
+    if attack_timer == 60 then
+        create_bullet(0, 253, 4, 1)
     end
 end
 
@@ -81,8 +76,13 @@ function do_act()
         if player.sub_choice == 1 then
             set_params("/w* " .. enemy2_setup.name .. " - ATK " .. enemy2_setup.atk .. " DEF " .. enemy2_setup.def .. "./s/s/s/s/s/n" .. enemy2_setup.check_msg, 52, 274, 2, fonts.main, 1 / 60, false, 'wave', ui_font, "")
         elseif player.sub_choice == 2 then
+            enemy2_acts.twoinc = enemy2_acts.twoinc + 1
             enemy2_setup.atk = 5
-            set_params("/w* You challenge Monster 2./s/s/s/s/n* Monster 2 gets stronger!/s/s/s/s/n* Monster 2's ATK is now 5.", 52, 274, 2, fonts.main, 1 / 60, false, 'wave', ui_font, "")
+            if enemy2_acts.twoinc == 1 then
+                set_params("/w* You challenge Monster 2./s/s/s/s/n* Monster 2 gets stronger!/s/s/s/s/n* Monster 2's ATK is now 5.", 52, 274, 2, fonts.main, 1 / 60, false, 'wave', ui_font, "")
+            else
+                set_params("/w* you exhausted the increment", 52, 274, 2, fonts.main, 1 / 60, false, 'wave', ui_font, "")
+            end
         end
     elseif chosen_enemy == 3 then
         for i, instance in ipairs(writer) do
@@ -106,6 +106,7 @@ enemy1_acts = {
 
 enemy2_acts = {
     "Check",
+    twoinc = 0,
     "Challenge"
 }
 

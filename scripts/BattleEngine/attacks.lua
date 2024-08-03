@@ -29,13 +29,15 @@ end
 
 function update_bullets()
    for i, bullet in ipairs(bullets) do
-      bullet.x = bullet.x + bullet.xspeed
-      bullet.y = bullet.y + bullet.yspeed
+      bullet.x = bullet.x + bullet.xspeed * love.timer.getDelta() * 30
+      bullet.y = bullet.y + bullet.yspeed * love.timer.getDelta() * 30
 
       if check_collision(player.x + player.hitbox_leniency, player.y + player.hitbox_leniency, player.img:getWidth() - (player.hitbox_leniency * 2), player.img:getHeight() - (player.hitbox_leniency * 2), bullet.x, bullet.y, 10, 100) then
          if inv_frame_timer == player.inv_frames then
             screen:setShake(4)
-            table.remove(bullets, i)
+            if not player.has_kr then
+               table.remove(bullets, i)
+            end
             inv_frame_timer = 0
             hurt_player()
          end

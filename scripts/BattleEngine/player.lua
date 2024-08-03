@@ -2,13 +2,13 @@ function init_player()
     player = {
         name = " ",
         lv = 1,
-        hp = 20,
-        max_hp = 20,
+        hp = 10,
+        max_hp = 109,
         has_kr = false,
         amt_of_kr = 0,
         def = 0,
         atk = 0,
-        inv_frames = 15,
+        inv_frames = 1,
         hitbox_leniency = 5,
         img = love.graphics.newImage("/assets/images/ut-heart.png"),
         x = 313,
@@ -19,14 +19,9 @@ function init_player()
     }
 
     inventory = {
-        "Item 1",
-        "Item 2",
-        "Item 3",
-        "Item 4",
-        "Item 5",
-        "Item 6",
-        "Item 7",
-        "Item 8"
+        "Heal",
+        "Weapon",
+        "Armor"
     }
 end
 
@@ -34,7 +29,7 @@ function hurt_player()
     player.hurt:stop()
     player.hurt:play()
     
-    player.hp = player.hp - 4
+    player.hp = player.hp - 1
     if player.has_kr then
         if player.hp > 1 then
             player.amt_of_kr = player.amt_of_kr + 1
@@ -264,6 +259,12 @@ function draw_soul()
                 player.sub_choice = player.sub_choice - 1
             end
 
+            if player.sub_choice == 4 then
+                player.sub_choice = 2
+            elseif player.sub_choice == 6 then
+                player.sub_choice = 4
+            end
+
         end
 
         if key == "right" then
@@ -279,6 +280,14 @@ function draw_soul()
             if soul_state == "act" or soul_state == "items" then
                 love.audio.play(menu_move)
                 player.sub_choice = player.sub_choice + 1
+            end
+
+            if soul_state == "items" then
+                if player.sub_choice == 3 then
+                    player.sub_choice = 5
+                elseif player.sub_choice == 5 then
+                    player.sub_choice = 7
+                end
             end
 
         end
