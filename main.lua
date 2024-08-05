@@ -67,7 +67,7 @@ function love.load(arg)
 
     love.graphics.setBackgroundColor(0, 0, 0, 1)
 
-    tick.framerate = 30
+    tick.framerate = 60
 
     game_state = "encounter"
     battle_init()

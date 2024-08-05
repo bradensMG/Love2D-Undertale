@@ -15,7 +15,9 @@ function init_player()
         y = 0,
         gravity = 0,
         hurt = love.audio.newSource("/assets/sound/sfx/snd_hurt1.wav", "stream"),
-        sub_choice = 1
+        sub_choice = 1,
+        jumpmode = 1,
+        timer = 0
     }
 
     inventory = {
@@ -117,11 +119,21 @@ function draw_soul()
                 player.gravity = player.gravity + 1
             end
 
-            if love.keyboard.isDown("up") and player.y == maxdown then
+            if love.keyboard.isDown("up") and player.jumpmode ~= 3 then
                 player.gravity = -6
+                player.jumpmode = 2
+                player.timer = player.timer + 1
             end
 
-            player.y = player.y + player.gravity
+            if not love.keyboard.isDown("up") and player.jumpmode == 2 then
+                player.gravity = -1
+            end
+
+            if not love.keyboard.isDown("up") and player.jumpmode == 2 then
+                player.jumpmode = 3
+            end
+
+            player.y = player.y + (player.gravity * love.timer.getDelta() * 30)
             
         end
 
@@ -134,6 +146,7 @@ function draw_soul()
         if player.y > maxdown then
             player.y = maxdown
             player.gravity = 0
+            player.jumpmode = 1
         end
         if player.y < maxup then
             player.y = maxup

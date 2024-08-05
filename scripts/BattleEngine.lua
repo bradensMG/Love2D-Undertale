@@ -1,6 +1,6 @@
 function battle_init()
     kr_time_since = 0
-    movement = 1
+    movement = 2
 
     raw_attack_timer = 0
 
@@ -63,7 +63,7 @@ function battleengine_draw()
 
     if soul_state == "enemy turn" then
         draw_bullets()
-        love.graphics.print(attack_timer, 0, 50)
+        love.graphics.print(player.jumpmode, 0, 50)
     end
 
     if soul_state == "choose enemy" then
