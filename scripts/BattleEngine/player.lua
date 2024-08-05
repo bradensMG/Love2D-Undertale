@@ -116,7 +116,7 @@ function draw_soul()
             end
 
             if player.y < maxdown then
-                player.gravity = player.gravity + 1
+                player.gravity = player.gravity + 1 * love.timer.getDelta() * 30
             end
 
             if love.keyboard.isDown("up") and player.jumpmode ~= 3 then
