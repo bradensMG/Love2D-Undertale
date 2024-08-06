@@ -27,7 +27,7 @@ function set_params(my_str, my_x, my_y, my_rad, my_font, my_timing, my_mode, my_
     table.insert(writer, instance)
 end
 
-function draw()
+function draw_text()
     for i, instance in ipairs(writer) do
         love.graphics.setFont(instance.font)
         
@@ -127,11 +127,11 @@ function draw()
     end
 end
 
-function upd()
+function update_text()
     for i, instance in ipairs(writer) do
         instance.time_since = instance.time_since + tick.dt
 
-        if love.keyboard.isDown('x') or instance.is_instant then
+        if (love.keyboard.isDown('x') or love.keyboard.isDown('rshift')) or instance.is_instant then
             instance.txt_can_prog = true
             instance.progress = #instance.text + 1
             instance.prog_string = instance.text

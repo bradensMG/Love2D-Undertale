@@ -54,8 +54,41 @@ function draw_enemies()
 end
 
 function enemies_attack()
+    if attack_timer == 10 then
+        create_bullet(0, 360, 6, 0)
+    end
+    if attack_timer == 15 then
+        create_bullet(0, 360, 8, 0)
+    end
+    if attack_timer == 20 then
+        create_bullet(0, 360, 9, 0)
+    end
+    if attack_timer == 25 then
+        create_bullet(0, 360, 10, 0)
+    end
+    if attack_timer == 30 then
+        create_bullet(0, 360, 11, 0)
+    end
+    if attack_timer == 35 then
+        create_bullet(0, 360, 12, 0)
+    end
+    if attack_timer == 40 then
+        create_bullet(0, 360, 13, 0)
+    end
+    if attack_timer == 45 then
+        create_bullet(0, 360, 14, 0)
+    end
+    if attack_timer == 50 then
+        create_bullet(0, 360, 15, 0)
+    end
+    if attack_timer == 55 then
+        create_bullet(0, 360, 16, 0)
+    end
     if attack_timer == 60 then
-        create_bullet(0, 253, 4, 1)
+        create_bullet(0, 360, 17, 0)
+    end
+    if attack_timer == 65 then
+        create_bullet(0, 360, 18, 0)
     end
 end
 

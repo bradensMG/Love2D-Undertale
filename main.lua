@@ -65,7 +65,7 @@ function love.load(arg)
 
     love.graphics.setDefaultFilter("nearest", "nearest")
 
-    love.graphics.setBackgroundColor(0, 0, 0, 1)
+    love.graphics.setBackgroundColor(0.05, 0.05, 0.15, 1)
 
     tick.framerate = 60
 
@@ -75,8 +75,6 @@ end
 
 function love.draw()
     screen:apply()
-
-    love.graphics.setBackgroundColor(0, 0, 0)
 
     if game_state == 'encounter' then
         battleengine_draw()

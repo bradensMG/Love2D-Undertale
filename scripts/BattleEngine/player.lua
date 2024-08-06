@@ -2,8 +2,8 @@ function init_player()
     player = {
         name = " ",
         lv = 1,
-        hp = 10,
-        max_hp = 109,
+        hp = 20,
+        max_hp = 20,
         has_kr = false,
         amt_of_kr = 0,
         def = 0,
@@ -16,14 +16,17 @@ function init_player()
         gravity = 0,
         hurt = love.audio.newSource("/assets/sound/sfx/snd_hurt1.wav", "stream"),
         sub_choice = 1,
-        jumpmode = 1,
+        jumpmode = 3,
         timer = 0
     }
 
     inventory = {
-        "Heal",
-        "Weapon",
-        "Armor"
+        'Pie',
+        'M. Candy',
+        'M. Candy',
+        'M. Candy',
+        'M. Candy',
+        'Boxing Glove'
     }
 end
 
@@ -61,10 +64,18 @@ function update_inv_frames()
 end
 
 function draw_soul()
-    if player.darken then
-        love.graphics.setColor(.75, .75, .75)
+    if movement == 1 then
+        if player.darken then
+            love.graphics.setColor(.75, 0, 0)
+        else
+            love.graphics.setColor(1, 0, 0)
+        end
     else
-        love.graphics.setColor(1, 1, 1)
+        if player.darken then
+            love.graphics.setColor(0, 0, .75)
+        else
+            love.graphics.setColor(0, 0, 1)
+        end
     end
 
     if player.hp + player.amt_of_kr > player.max_hp then
@@ -116,17 +127,18 @@ function draw_soul()
             end
 
             if player.y < maxdown then
-                player.gravity = player.gravity + 1 * love.timer.getDelta() * 30
+                player.gravity = player.gravity + .8 * love.timer.getDelta() * 30
             end
 
-            if love.keyboard.isDown("up") and player.jumpmode ~= 3 then
+            if love.keyboard.isDown("up") and player.jumpmode ~= 3 and player.timer < 9 then
                 player.gravity = -6
                 player.jumpmode = 2
-                player.timer = player.timer + 1
+                player.timer = player.timer + 1 * love.timer.getDelta() * 30
             end
 
-            if not love.keyboard.isDown("up") and player.jumpmode == 2 then
+            if not love.keyboard.isDown("up") and player.jumpmode == 2 and player.timer < 9 then
                 player.gravity = -1
+                
             end
 
             if not love.keyboard.isDown("up") and player.jumpmode == 2 then
@@ -147,6 +159,7 @@ function draw_soul()
             player.y = maxdown
             player.gravity = 0
             player.jumpmode = 1
+            player.timer = 0
         end
         if player.y < maxup then
             player.y = maxup
@@ -345,6 +358,12 @@ function draw_soul()
 
         if (key == "z" or key == "return") then
 
+            if soul_state == "items" then
+                do_item()
+                on_button = 0
+                soul_state = nil
+            end
+
             if soul_state == "act" then
                 do_act()
                 on_button = 0
@@ -397,4 +416,26 @@ function draw_soul()
     if soul_state ~= nil then
         love.graphics.draw(player.img, math.floor(player.x), math.floor(player.y))
     end
+end
+
+function do_item()
+    for i, instance in ipairs(writer) do
+        instance.text = ""
+    end
+    if inventory[player.sub_choice] == 'Pie' then
+        player.hp = player.max_hp
+        set_params("/w* You ate the Butterscotch Pie./s/s/s/s/s/s/s/s/n* Your HP was maxed out!", 52, 274, 2, fonts.main, 1 / 60, false, 'wave', ui_font, "")
+    end
+    if inventory[player.sub_choice] == 'M. Candy' then
+        player.hp = player.hp + 10
+        if player.hp == player.max_hp then
+            set_params("/w* You ate the Monster Candy./s/s/s/s/s/s/s/s/n* Your HP was maxed out!", 52, 274, 2, fonts.main, 1 / 60, false, 'wave', ui_font, "")
+        else
+            set_params("/w* You ate the Monster Candy./s/s/s/s/s/s/s/s/n* You recovered 10 HP.", 52, 274, 2, fonts.main, 1 / 60, false, 'wave', ui_font, "")
+        end
+    end
+    if inventory[player.sub_choice] == 'Boxing Glove' then
+        set_params("/w* You equipped the Boxing Glove.", 52, 274, 2, fonts.main, 1 / 60, false, 'wave', ui_font, "")
+    end
+    render_text = true
 end
