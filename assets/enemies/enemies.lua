@@ -146,6 +146,6 @@ enemy2_acts = {
 enemies = {
     amount = 2,
     encounter_text = "/f/w* /cTest Monster /wand its /ycohort/n  /wdraw near!",
-    start_first = true,
+    start_first = false,
     can_flee = true
 }

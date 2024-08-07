@@ -2,7 +2,7 @@ function init_player()
     player = {
         name = " ",
         lv = 1,
-        hp = 20,
+        hp = 15,
         max_hp = 20,
         has_kr = false,
         amt_of_kr = 0,
@@ -425,9 +425,16 @@ function do_item()
     if inventory[player.sub_choice] == 'Pie' then
         player.hp = player.max_hp
         set_params("/w* You ate the Butterscotch Pie./s/s/s/s/s/s/s/s/n* Your HP was maxed out!", 52, 274, 2, fonts.main, 1 / 60, false, 'wave', ui_font, "")
+        if instance.txt_can_prog then
+            love.event.quit()
+        end
     end
     if inventory[player.sub_choice] == 'M. Candy' then
-        player.hp = player.hp + 10
+        if player.hp + 10 > player.max_hp then
+            player.hp = player.max_hp
+        else
+            player.hp = player.hp + 10
+        end
         if player.hp == player.max_hp then
             set_params("/w* You ate the Monster Candy./s/s/s/s/s/s/s/s/n* Your HP was maxed out!", 52, 274, 2, fonts.main, 1 / 60, false, 'wave', ui_font, "")
         else
