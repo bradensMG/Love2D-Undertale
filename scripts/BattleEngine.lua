@@ -13,10 +13,10 @@ function battle_init()
 
     if enemies.start_first then
         on_button = 0
-        soul_state = "enemy turn"
+        battle_state = "enemy turn"
     else
         on_button = 1
-        soul_state = "buttons"
+        battle_state = "buttons"
         set_params(enemies.encounter_text, 52, 274, 2, fonts.main, 1 / 60, false, 'wave', ui_font, "")
         render_text = true
     end
@@ -31,7 +31,7 @@ function battleengine_run()
         update_text()
     end
 
-    if soul_state == "enemy turn" then
+    if battle_state == "enemy turn" then
         update_bullets()
         raw_attack_timer = raw_attack_timer + love.timer.getDelta() * tick.framerate
         attack_timer = math.floor(raw_attack_timer)
@@ -58,7 +58,7 @@ function battleengine_draw()
     draw_soul()
     draw_enemies()
     draw_ui_text()
-    if soul_state == "enemy turn" then draw_bullets() end
+    if battle_state == "enemy turn" then draw_bullets() end
     draw_text()
 
     love.graphics.setColor(1, 1, 1)

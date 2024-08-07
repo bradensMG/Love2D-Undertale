@@ -101,7 +101,7 @@ function draw_soul()
         player.speed = 4 * love.timer.getDelta() * 30
     end
 
-    if soul_state == "enemy turn" then
+    if battle_state == "enemy turn" then
 
         if movement == 1 then
             if love.keyboard.isDown("down") then 
@@ -166,7 +166,7 @@ function draw_soul()
         end
     end
 
-    if soul_state == "buttons" then
+    if battle_state == "buttons" then
         if on_button == 1 then 
             player.x = 40
             player.y = 446
@@ -181,7 +181,7 @@ function draw_soul()
             player.y = 446
         end 
            
-    elseif soul_state == "choose enemy" then
+    elseif battle_state == "choose enemy" then
 
         player.x = 52
 
@@ -193,7 +193,7 @@ function draw_soul()
             player.y = 342
         end
 
-    elseif soul_state == "act" then
+    elseif battle_state == "act" then
 
         if chosen_enemy == 1 then
             if player.sub_choice > #enemy1_acts then
@@ -235,7 +235,7 @@ function draw_soul()
             player.y = 342
         end
 
-    elseif soul_state == "items" then
+    elseif battle_state == "items" then
         if player.sub_choice > #inventory then
             player.sub_choice = 1
         elseif player.sub_choice < 1 then
@@ -258,7 +258,7 @@ function draw_soul()
             items_page = 1
         end
 
-    elseif soul_state == "mercy" then
+    elseif battle_state == "mercy" then
 
         player.x = 52
 
@@ -272,7 +272,7 @@ function draw_soul()
     function love.keypressed(key, scancode, isrepeat)
         if key == "left" then
 
-            if soul_state == "buttons" then
+            if battle_state == "buttons" then
                 love.audio.play(menu_move)
                 on_button = on_button - 1
                 if on_button == 0 then
@@ -280,7 +280,7 @@ function draw_soul()
                 end
             end
 
-            if soul_state == "act" or soul_state == "items" then
+            if battle_state == "act" or battle_state == "items" then
                 love.audio.play(menu_move)
                 player.sub_choice = player.sub_choice - 1
             end
@@ -295,7 +295,7 @@ function draw_soul()
 
         if key == "right" then
 
-            if soul_state == "buttons" then
+            if battle_state == "buttons" then
                 on_button = on_button + 1
                 love.audio.play(menu_move)
                 if on_button == 5 then
@@ -303,12 +303,12 @@ function draw_soul()
                 end
             end
 
-            if soul_state == "act" or soul_state == "items" then
+            if battle_state == "act" or battle_state == "items" then
                 love.audio.play(menu_move)
                 player.sub_choice = player.sub_choice + 1
             end
 
-            if soul_state == "items" then
+            if battle_state == "items" then
                 if player.sub_choice == 3 then
                     player.sub_choice = 5
                 elseif player.sub_choice == 5 then
@@ -320,17 +320,17 @@ function draw_soul()
 
         if key == "up" then
 
-            if soul_state == "choose enemy" and player.sub_choice > 1 then
+            if battle_state == "choose enemy" and player.sub_choice > 1 then
                 love.audio.play(menu_move)
                 player.sub_choice = player.sub_choice - 1
             end
 
-            if soul_state == "act" or soul_state == "items" then
+            if battle_state == "act" or battle_state == "items" then
                 love.audio.play(menu_move)
                 player.sub_choice = player.sub_choice - 2
             end
 
-            if soul_state == "mercy" and player.sub_choice > 1 then
+            if battle_state == "mercy" and player.sub_choice > 1 then
                 love.audio.play(menu_move)
                 player.sub_choice = player.sub_choice - 1
             end
@@ -339,17 +339,17 @@ function draw_soul()
 
         if key == "down" then
 
-            if soul_state == "choose enemy" and player.sub_choice < enemies.amount then
+            if battle_state == "choose enemy" and player.sub_choice < enemies.amount then
                 love.audio.play(menu_move)
                 player.sub_choice = player.sub_choice + 1
             end
 
-            if soul_state == "act" or soul_state == "items" then
+            if battle_state == "act" or battle_state == "items" then
                 love.audio.play(menu_move)
                 player.sub_choice = player.sub_choice + 2
             end
 
-            if soul_state == "mercy" and (enemies.can_flee and player.sub_choice == 1) then
+            if battle_state == "mercy" and (enemies.can_flee and player.sub_choice == 1) then
                 love.audio.play(menu_move)
                 player.sub_choice = player.sub_choice + 1
             end
@@ -358,41 +358,41 @@ function draw_soul()
 
         if (key == "z" or key == "return") then
 
-            if soul_state == "items" then
+            if battle_state == "items" then
                 do_item()
                 on_button = 0
-                soul_state = nil
+                battle_state = nil
             end
 
-            if soul_state == "act" then
+            if battle_state == "act" then
                 do_act()
                 on_button = 0
-                soul_state = nil
+                battle_state = nil
             end
 
-            if soul_state == "choose enemy" then
+            if battle_state == "choose enemy" then
                 if on_button == 1 then
-                    soul_state = nil
+                    battle_state = nil
                     on_button = 0
                 elseif on_button == 2 then
                     chosen_enemy = player.sub_choice
                     player.sub_choice = 1
-                    soul_state = "act"
+                    battle_state = "act"
                 end
             end
 
-            if soul_state == "buttons" then
+            if battle_state == "buttons" then
                 love.audio.play(menu_confirm)
                 if on_button == 1 or on_button == 2 then
                     player.sub_choice = 1
-                    soul_state = "choose enemy"
+                    battle_state = "choose enemy"
                 elseif on_button == 3 then
                     items_page = 1
                     player.sub_choice = 1
-                    soul_state = "items"
+                    battle_state = "items"
                 elseif on_button == 4 then
                     player.sub_choice = 1
-                    soul_state = "mercy"
+                    battle_state = "mercy"
                 end
             end
 
@@ -400,20 +400,20 @@ function draw_soul()
 
         if (key == "x" or key == "rshift") then
 
-            if soul_state == "choose enemy" or soul_state == "items" or soul_state == "mercy" then
-                soul_state = "buttons"
+            if battle_state == "choose enemy" or battle_state == "items" or battle_state == "mercy" then
+                battle_state = "buttons"
                 instance.prog_string = instance.text
             end
 
-            if soul_state == "act" then
+            if battle_state == "act" then
                 player.sub_choice = 1
-                soul_state = "choose enemy"
+                battle_state = "choose enemy"
             end
 
         end
     end
 
-    if soul_state ~= nil then
+    if battle_state ~= nil then
         love.graphics.draw(player.img, math.floor(player.x), math.floor(player.y))
     end
 end
@@ -423,6 +423,7 @@ function do_item()
         instance.text = ""
     end
     if inventory[player.sub_choice] == 'Pie' then
+        heal:play()
         player.hp = player.max_hp
         set_params("/w* You ate the Butterscotch Pie./s/s/s/s/s/s/s/s/n* Your HP was maxed out!", 52, 274, 2, fonts.main, 1 / 60, false, 'wave', ui_font, "")
         if instance.txt_can_prog then
@@ -430,6 +431,7 @@ function do_item()
         end
     end
     if inventory[player.sub_choice] == 'M. Candy' then
+        heal:play()
         if player.hp + 10 > player.max_hp then
             player.hp = player.max_hp
         else

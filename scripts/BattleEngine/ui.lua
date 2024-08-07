@@ -80,7 +80,7 @@ function draw_box(x, y, width, height)
 end
 
 function draw_ui_text()
-    if soul_state == "choose enemy" then
+    if battle_state == "choose enemy" then
         render_text = false
         instance.prog_string = ""
         love.graphics.setFont(fonts.main)
@@ -97,7 +97,7 @@ function draw_ui_text()
             love.graphics.print("  * " .. enemy3_setup.name, 52, 338)
         end
 
-    elseif soul_state == "act" then
+    elseif battle_state == "act" then
         love.graphics.setFont(fonts.main)
         if chosen_enemy == 1 then
             if #enemy1_acts > 0 then love.graphics.print("  * " .. enemy1_acts[1], 52, 274) end
@@ -122,7 +122,7 @@ function draw_ui_text()
             if #enemy3_acts > 5 then love.graphics.print("  * " .. enemy3_acts[6], 288, 338) end
         end
 
-    elseif soul_state == "items" then
+    elseif battle_state == "items" then
         render_text = false
         instance.prog_string = ""
         love.graphics.setFont(fonts.main)
@@ -142,7 +142,7 @@ function draw_ui_text()
             love.graphics.print("what", 52, 274)
         end
 
-    elseif soul_state == "mercy" then
+    elseif battle_state == "mercy" then
         render_text = false
         instance.prog_string = ""
         love.graphics.setFont(fonts.main)

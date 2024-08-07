@@ -52,6 +52,8 @@ function preload()
 
     menu_move = love.audio.newSource("assets/sound/sfx/menumove.wav", "static")
     menu_confirm = love.audio.newSource("assets/sound/sfx/menuconfirm.wav", "static")
+
+    heal = love.audio.newSource("assets/sound/sfx/snd_heal_c.wav", "static")
 end
 
 function love.load(arg)

@@ -31,6 +31,13 @@ enemy2_acts = {
     "Challenge"
 }
 
+enemies = {
+    amount = 2,
+    encounter_text = "/f/w* /cTest Monster /wand its /ycohort/n  /wdraw near!",
+    start_first = true,
+    can_flee = true
+}
+
 function draw_enemies()
     if enemy1_setup.status == "alive" then
         love.graphics.setColor(1, 1, 1)
@@ -54,42 +61,10 @@ function draw_enemies()
 end
 
 function enemies_attack()
-    if attack_timer == 10 then
-        create_bullet(0, 360, 6, 0)
-    end
-    if attack_timer == 15 then
-        create_bullet(0, 360, 8, 0)
-    end
-    if attack_timer == 20 then
-        create_bullet(0, 360, 9, 0)
-    end
-    if attack_timer == 25 then
-        create_bullet(0, 360, 10, 0)
-    end
-    if attack_timer == 30 then
-        create_bullet(0, 360, 11, 0)
-    end
-    if attack_timer == 35 then
-        create_bullet(0, 360, 12, 0)
-    end
-    if attack_timer == 40 then
-        create_bullet(0, 360, 13, 0)
-    end
-    if attack_timer == 45 then
-        create_bullet(0, 360, 14, 0)
-    end
-    if attack_timer == 50 then
-        create_bullet(0, 360, 15, 0)
-    end
-    if attack_timer == 55 then
-        create_bullet(0, 360, 16, 0)
-    end
-    if attack_timer == 60 then
-        create_bullet(0, 360, 17, 0)
-    end
-    if attack_timer == 65 then
-        create_bullet(0, 360, 18, 0)
-    end
+    on_button = 1
+    battle_state = "buttons"
+    set_params(enemies.encounter_text, 52, 274, 2, fonts.main, 1 / 60, false, 'wave', ui_font, "")
+    render_text = true
 end
 
 function do_act()
@@ -141,11 +116,4 @@ enemy2_acts = {
     "Check",
     twoinc = 0,
     "Challenge"
-}
-
-enemies = {
-    amount = 2,
-    encounter_text = "/f/w* /cTest Monster /wand its /ycohort/n  /wdraw near!",
-    start_first = false,
-    can_flee = true
 }
