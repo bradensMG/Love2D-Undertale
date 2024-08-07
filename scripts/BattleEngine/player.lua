@@ -8,7 +8,7 @@ function init_player()
         amt_of_kr = 0,
         def = 0,
         atk = 0,
-        inv_frames = 1,
+        inv_frames = 15,
         hitbox_leniency = 5,
         img = love.graphics.newImage("/assets/images/ut-heart.png"),
         x = 313,
